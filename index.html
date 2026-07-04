@@ -1,1 +1,69 @@
-<link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css" />
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <title>আমার অডিওবুক</title>
+    <!-- Plyr CSS -->
+    <link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css" />
+    <style>
+        /* CSS অংশ */
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+        :root {
+            --primary-color: #6366f1;
+            --bg-color: #f8fafc;
+            --card-bg: #ffffff;
+            --plyr-color-main: var(--primary-color);
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        .audio-container {
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+            width: 90%;
+            max-width: 450px;
+            text-align: center;
+            border: 1px solid #e2e8f0;
+        }
+
+        h1 {
+            font-size: 1.5rem;
+            color: #1e293b;
+            margin-bottom: 1.5rem;
+        }
+
+        .plyr {
+            border-radius: 12px;
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="audio-container">
+        <h1>বইয়ের নাম</h1>
+        <audio id="player" controls>
+            <!-- আপনার অডিও ফাইলের পাথ এখানে দিন -->
+            <source src="audio/chapter1.mp3" type="audio/mp3">
+        </audio>
+    </div>
+
+    <!-- Plyr JavaScript -->
+    <script src="https://cdn.plyr.io/3.7.8/plyr.polyfilled.js"></script>
+    <script>
+        // JavaScript অংশ
+        const player = new Plyr('#player');
+    </script>
+</body>
+</html>
