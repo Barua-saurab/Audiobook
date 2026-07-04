@@ -2,9 +2,11 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
 
 :root {
-    --primary-color: #6366f1; /* সুন্দর ইন্ডিগো কালার */
+    --primary-color: #6366f1;
     --bg-color: #f8fafc;
     --card-bg: #ffffff;
+    /* Plyr প্লেয়ারের জন্য ভেরিয়েবল */
+    --plyr-color-main: var(--primary-color);
 }
 
 body {
@@ -34,16 +36,7 @@ h1 {
     margin-bottom: 1.5rem;
 }
 
-/* Plyr প্লেয়ারের কালার পরিবর্তন */
-:root {
-    --plyr-color-main: var(--primary-color);
-    --plyr-audio-controls-background: #ffffff;
-    --plyr-audio-control-color: #475569;
-}
-
-/* প্লেয়ারের চারপাশে সামান্য শ্যাডো */
 .plyr {
     border-radius: 12px;
     overflow: hidden;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
 }
