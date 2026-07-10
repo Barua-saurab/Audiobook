@@ -1,69 +1,222 @@
-<!DOCTYPE html>
-<html lang="bn">
+html_content = """<!DOCTYPE html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>আমার অডিওবুক</title>
-    <!-- Plyr CSS -->
-    <link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Urme Barua - Resume</title>
     <style>
-        /* CSS অংশ */
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
-
-        :root {
-            --primary-color: #6366f1;
-            --bg-color: #f8fafc;
-            --card-bg: #ffffff;
-            --plyr-color-main: var(--primary-color);
-        }
-
         body {
-            font-family: 'Poppins', sans-serif;
-            background-color: var(--bg-color);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: #e2e8f0;
+            color: #333;
             margin: 0;
+            padding: 40px 20px;
+            line-height: 1.6;
         }
-
-        .audio-container {
-            background: var(--card-bg);
-            padding: 2rem;
-            border-radius: 20px;
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
-            width: 90%;
-            max-width: 450px;
+        .container {
+            max-width: 850px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 50px 60px;
+            border-radius: 4px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+        header {
             text-align: center;
-            border: 1px solid #e2e8f0;
+            border-bottom: 3px solid #3182ce;
+            padding-bottom: 25px;
+            margin-bottom: 35px;
         }
-
         h1 {
-            font-size: 1.5rem;
-            color: #1e293b;
-            margin-bottom: 1.5rem;
+            font-size: 38px;
+            color: #2d3748;
+            margin: 0 0 10px 0;
+            letter-spacing: 1px;
+            text-transform: uppercase;
         }
-
-        .plyr {
-            border-radius: 12px;
-            overflow: hidden;
+        .contact-info {
+            font-size: 15px;
+            color: #4a5568;
+        }
+        .contact-info span {
+            margin: 0 8px;
+        }
+        section {
+            margin-bottom: 35px;
+        }
+        h2 {
+            font-size: 22px;
+            color: #2c5282;
+            border-bottom: 2px solid #ebf8ff;
+            padding-bottom: 8px;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        p {
+            margin-top: 0;
+            margin-bottom: 15px;
+            text-align: justify;
+        }
+        .edu-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 15px;
+        }
+        .edu-table th, .edu-table td {
+            border: 1px solid #e2e8f0;
+            padding: 12px;
+            text-align: left;
+            font-size: 15px;
+        }
+        .edu-table th {
+            background-color: #f7fafc;
+            color: #4a5568;
+            font-weight: 600;
+        }
+        .list-item {
+            margin-bottom: 8px;
+        }
+        ul {
+            margin-top: 0;
+            padding-left: 25px;
+        }
+        .info-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .info-table td {
+            padding: 8px 0;
+            font-size: 15px;
+            vertical-align: top;
+        }
+        .info-table td.label {
+            width: 30%;
+            font-weight: 600;
+            color: #4a5568;
+        }
+        .reference-block {
+            margin-bottom: 20px;
+        }
+        .reference-title {
+            font-weight: bold;
+            color: #2d3748;
+            font-size: 16px;
+        }
+        .reference-detail {
+            color: #4a5568;
+            font-size: 15px;
         }
     </style>
 </head>
 <body>
+    <div class="container">
+        <header>
+            <h1>Urme Barua</h1>
+            <div class="contact-info">
+                <span>Mowlovi Pukur Par, Chadgao, Chattogram, Bangladesh</span><br>
+                <span><strong>Phone:</strong> 01871099356</span> | 
+                <span><strong>Email:</strong> urmibarua002@gmail.com</span>
+            </div>
+        </header>
 
-    <div class="audio-container">
-        <h1>বইয়ের নাম</h1>
-        <audio id="player" controls>
-            <!-- আপনার অডিও ফাইলের পাথ এখানে দিন -->
-            <source src="audio/chapter1.mp3" type="audio/mp3">
-        </audio>
+        <section>
+            <h2>Objective</h2>
+            <p>I have a great pleasure and keen interest to join in a well reputed and dynamic organization to serve the nation and to prove myself as an honest, eligible, dynamic and dexterous person.</p>
+        </section>
+
+        <section>
+            <h2>Academic Qualification</h2>
+            <table class="edu-table">
+                <thead>
+                    <tr>
+                        <th>Degree / Certificate</th>
+                        <th>Institution / University</th>
+                        <th>Group / Subject</th>
+                        <th>Passing Year</th>
+                        <th>Result</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>BBA</strong></td>
+                        <td>Premier University, Chattogram, Bangladesh</td>
+                        <td>BBA</td>
+                        <td>2023</td>
+                        <td>3.45 / 4.00<br><small>(2nd semester)</small></td>
+                    </tr>
+                    <tr>
+                        <td><strong>H.S.C</strong></td>
+                        <td>Kapasgola City Corp. Mohilla College, Chattogram Board</td>
+                        <td>Business Studies</td>
+                        <td>2020</td>
+                        <td>4.00 / 5.00</td>
+                    </tr>
+                    <tr>
+                        <td><strong>S.S.C</strong></td>
+                        <td>Kapasgola City Corp. Girls High School, Chattogram Board</td>
+                        <td>Business Studies</td>
+                        <td>2018</td>
+                        <td>4.11 / 5.00</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section>
+            <h2>Skills & Qualifications</h2>
+            <ul>
+                <li class="list-item"><strong>Technical Qualifications:</strong> Digital Marketing Expert, Microsoft Word, Excel, Power Point.</li>
+                <li class="list-item"><strong>Professional Skills:</strong> Team leadership, Highly responsible and reliable, Communication skills, Self-disciplined, Teamwork skills.</li>
+                <li class="list-item"><strong>Languages:</strong> Satisfactory fluency in written and oral communication both English and Bengali.</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>Personal Information</h2>
+            <table class="info-table">
+                <tr><td class="label">Father’s Name:</td><td>Priyatom Barua</td></tr>
+                <tr><td class="label">Mother’s Name:</td><td>Milky Rani Barua</td></tr>
+                <tr><td class="label">Date of Birth:</td><td>5th December, 2001</td></tr>
+                <tr><td class="label">Nationality:</td><td>Bangladeshi</td></tr>
+                <tr><td class="label">National ID No:</td><td>601 452 9850</td></tr>
+                <tr><td class="label">Religion:</td><td>Buddhist</td></tr>
+                <tr><td class="label">Marital Status:</td><td>Unmarried</td></tr>
+                <tr><td class="label">Gender:</td><td>Female</td></tr>
+                <tr><td class="label">Blood Group:</td><td>AB+</td></tr>
+                <tr><td class="label">Home District:</td><td>Chattogram</td></tr>
+                <tr><td class="label">Permanent Address:</td><td>Vill: Baiddyapara, P.O: Saroatali, P.S: Boalkhali, Dist: Chattogram</td></tr>
+                <tr><td class="label">Interests:</td><td>Recitation, Singing Song, Travel, Creative Work.</td></tr>
+            </table>
+        </section>
+
+        <section>
+            <h2>References</h2>
+            <div class="reference-block">
+                <div class="reference-title">Professional Reference</div>
+                <div class="reference-detail">
+                    <strong>Mr. Apelo Barua</strong>, General Manager<br>
+                    5R Associates<br>
+                    Portland Sattar Tower, 4th floor. 1776 Stand Road, Barek Building Mor.<br>
+                    Chattogram, Bangladesh.<br>
+                    Mobile: 01717598430
+                </div>
+            </div>
+            <div class="reference-block">
+                <div class="reference-title">Academic Reference</div>
+                <div class="reference-detail">
+                    <strong>Ms. Joly Paul</strong>, Assistant Professor<br>
+                    Faculty of Business Studies<br>
+                    Premier University<br>
+                    Chattogram, Bangladesh.
+                </div>
+            </div>
+        </section>
     </div>
-
-    <!-- Plyr JavaScript -->
-    <script src="https://cdn.plyr.io/3.7.8/plyr.polyfilled.js"></script>
-    <script>
-        // JavaScript অংশ
-        const player = new Plyr('#player');
-    </script>
 </body>
-</html>
+</html>"""
+
+with open('/mnt/data/Urme_Barua_Resume.html', 'w', encoding='utf-8') as f:
+    f.write(html_content)
+
+print("HTML file created successfully.")
