@@ -1,222 +1,290 @@
-html_content = """<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Urme Barua - Resume</title>
-    <style>
-        body {
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            background-color: #e2e8f0;
-            color: #333;
-            margin: 0;
-            padding: 40px 20px;
-            line-height: 1.6;
-        }
-        .container {
-            max-width: 850px;
-            margin: 0 auto;
-            background: #ffffff;
-            padding: 50px 60px;
-            border-radius: 4px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-        }
-        header {
-            text-align: center;
-            border-bottom: 3px solid #3182ce;
-            padding-bottom: 25px;
-            margin-bottom: 35px;
-        }
-        h1 {
-            font-size: 38px;
-            color: #2d3748;
-            margin: 0 0 10px 0;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-        }
-        .contact-info {
-            font-size: 15px;
-            color: #4a5568;
-        }
-        .contact-info span {
-            margin: 0 8px;
-        }
-        section {
-            margin-bottom: 35px;
-        }
-        h2 {
-            font-size: 22px;
-            color: #2c5282;
-            border-bottom: 2px solid #ebf8ff;
-            padding-bottom: 8px;
-            margin-bottom: 20px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-        p {
-            margin-top: 0;
-            margin-bottom: 15px;
-            text-align: justify;
-        }
-        .edu-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 15px;
-        }
-        .edu-table th, .edu-table td {
-            border: 1px solid #e2e8f0;
-            padding: 12px;
-            text-align: left;
-            font-size: 15px;
-        }
-        .edu-table th {
-            background-color: #f7fafc;
-            color: #4a5568;
-            font-weight: 600;
-        }
-        .list-item {
-            margin-bottom: 8px;
-        }
-        ul {
-            margin-top: 0;
-            padding-left: 25px;
-        }
-        .info-table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        .info-table td {
-            padding: 8px 0;
-            font-size: 15px;
-            vertical-align: top;
-        }
-        .info-table td.label {
-            width: 30%;
-            font-weight: 600;
-            color: #4a5568;
-        }
-        .reference-block {
-            margin-bottom: 20px;
-        }
-        .reference-title {
-            font-weight: bold;
-            color: #2d3748;
-            font-size: 16px;
-        }
-        .reference-detail {
-            color: #4a5568;
-            font-size: 15px;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Writing</title>
+  <!-- Modern, readable fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Lora:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --bg: #fafafa;
+      --text-main: #1a1a1a;
+      --text-muted: #666666;
+      --text-article: #2a2a2a;
+      --accent: #2563eb;
+      --border: #e5e5e5;
+      --button-bg: #eaeaea;
+    }
+
+    /* Dark Mode Theme Colors */
+    [data-theme="dark"] {
+      --bg: #121212;
+      --text-main: #ededed;
+      --text-muted: #888888;
+      --text-article: #cccccc;
+      --accent: #60a5fa;
+      --border: #2a2a2a;
+      --button-bg: #222222;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text-main);
+      font-family: 'Inter', sans-serif;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    /* Layout */
+    .container {
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    header {
+      padding: 60px 0 40px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      transition: border-color 0.3s ease;
+    }
+
+    .site-title {
+      font-size: 1.5rem;
+      font-weight: 600;
+      letter-spacing: -0.03em;
+      cursor: pointer;
+    }
+
+    .site-bio {
+      color: var(--text-muted);
+      margin-top: 8px;
+      font-size: 0.95rem;
+      transition: color 0.3s ease;
+    }
+
+    /* Theme Toggle Button */
+    .theme-toggle {
+      background-color: var(--button-bg);
+      border: 1px solid var(--border);
+      color: var(--text-main);
+      padding: 8px 12px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: background-color 0.2s, border-color 0.2s, color 0.2s;
+    }
+
+    .theme-toggle:hover {
+      border-color: var(--accent);
+    }
+
+    /* Post List View */
+    .post-list {
+      display: flex;
+      flex-direction: column;
+      gap: 36px;
+    }
+
+    .post-preview {
+      cursor: pointer;
+    }
+
+    .post-date {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+      transition: color 0.3s ease;
+    }
+
+    .post-title {
+      font-size: 1.35rem;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      margin-bottom: 8px;
+      transition: color 0.2s;
+    }
+
+    .post-preview:hover .post-title {
+      color: var(--accent);
+    }
+
+    .post-excerpt {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      line-height: 1.5;
+      transition: color 0.3s ease;
+    }
+
+    /* Article Reading View */
+    .article-view {
+      display: none; /* Hidden by default */
+    }
+
+    .back-button {
+      background: none;
+      border: none;
+      color: var(--accent);
+      font-family: 'Inter', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 500;
+      cursor: pointer;
+      margin-bottom: 32px;
+      padding: 0;
+    }
+
+    .back-button:hover {
+      text-decoration: underline;
+    }
+
+    .article-header {
+      margin-bottom: 32px;
+    }
+
+    .article-header h1 {
+      font-size: 2.2rem;
+      font-weight: 600;
+      letter-spacing: -0.03em;
+      line-height: 1.25;
+      margin-bottom: 12px;
+    }
+
+    /* Reading typography */
+    .article-content {
+      font-family: 'Lora', serif;
+      font-size: 1.15rem;
+      line-height: 1.8;
+      color: var(--text-article);
+      transition: color 0.3s ease;
+    }
+
+    .article-content p {
+      margin-bottom: 24px;
+    }
+
+    footer {
+      margin-top: 80px;
+      padding: 40px 0;
+      border-top: 1px solid var(--border);
+      text-align: center;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      transition: border-color 0.3s ease, color 0.3s ease;
+    }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>Urme Barua</h1>
-            <div class="contact-info">
-                <span>Mowlovi Pukur Par, Chadgao, Chattogram, Bangladesh</span><br>
-                <span><strong>Phone:</strong> 01871099356</span> | 
-                <span><strong>Email:</strong> urmibarua002@gmail.com</span>
-            </div>
-        </header>
 
-        <section>
-            <h2>Objective</h2>
-            <p>I have a great pleasure and keen interest to join in a well reputed and dynamic organization to serve the nation and to prove myself as an honest, eligible, dynamic and dexterous person.</p>
-        </section>
+  <div class="container">
+    <header>
+      <div>
+        <div class="site-title" onclick="showList()">Saurab's Writing</div>
+        <p class="site-bio">Thoughts, notes, and essays on technology, life, and learning.</p>
+      </div>
+      <button class="theme-toggle" id="theme-btn" onclick="toggleTheme()">🌙 Dark</button>
+    </header>
 
-        <section>
-            <h2>Academic Qualification</h2>
-            <table class="edu-table">
-                <thead>
-                    <tr>
-                        <th>Degree / Certificate</th>
-                        <th>Institution / University</th>
-                        <th>Group / Subject</th>
-                        <th>Passing Year</th>
-                        <th>Result</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><strong>BBA</strong></td>
-                        <td>Premier University, Chattogram, Bangladesh</td>
-                        <td>BBA</td>
-                        <td>2023</td>
-                        <td>3.45 / 4.00<br><small>(2nd semester)</small></td>
-                    </tr>
-                    <tr>
-                        <td><strong>H.S.C</strong></td>
-                        <td>Kapasgola City Corp. Mohilla College, Chattogram Board</td>
-                        <td>Business Studies</td>
-                        <td>2020</td>
-                        <td>4.00 / 5.00</td>
-                    </tr>
-                    <tr>
-                        <td><strong>S.S.C</strong></td>
-                        <td>Kapasgola City Corp. Girls High School, Chattogram Board</td>
-                        <td>Business Studies</td>
-                        <td>2018</td>
-                        <td>4.11 / 5.00</td>
-                    </tr>
-                </tbody>
-            </table>
-        </section>
+    <!-- 1. Homepage: List of Writings -->
+    <main id="home-view">
+      <div class="post-list">
+        
+        <article class="post-preview" onclick="showPost('post-1')">
+          <div class="post-date">July 26, 2026</div>
+          <h2 class="post-title">The Art of Building Simple Things</h2>
+          <p class="post-excerpt">Why modern tools often overcomplicate creation, and how stripping away the non-essential brings back the joy of building.</p>
+        </article>
 
-        <section>
-            <h2>Skills & Qualifications</h2>
-            <ul>
-                <li class="list-item"><strong>Technical Qualifications:</strong> Digital Marketing Expert, Microsoft Word, Excel, Power Point.</li>
-                <li class="list-item"><strong>Professional Skills:</strong> Team leadership, Highly responsible and reliable, Communication skills, Self-disciplined, Teamwork skills.</li>
-                <li class="list-item"><strong>Languages:</strong> Satisfactory fluency in written and oral communication both English and Bengali.</li>
-            </ul>
-        </section>
+        <article class="post-preview" onclick="showPost('post-1')">
+          <div class="post-date">July 12, 2026</div>
+          <h2 class="post-title">Notes on Focus and Consistency</h2>
+          <p class="post-excerpt">Small daily progress compounds faster than sporadic bursts of intense work. Here is what I learned from tracking my habits.</p>
+        </article>
 
-        <section>
-            <h2>Personal Information</h2>
-            <table class="info-table">
-                <tr><td class="label">Father’s Name:</td><td>Priyatom Barua</td></tr>
-                <tr><td class="label">Mother’s Name:</td><td>Milky Rani Barua</td></tr>
-                <tr><td class="label">Date of Birth:</td><td>5th December, 2001</td></tr>
-                <tr><td class="label">Nationality:</td><td>Bangladeshi</td></tr>
-                <tr><td class="label">National ID No:</td><td>601 452 9850</td></tr>
-                <tr><td class="label">Religion:</td><td>Buddhist</td></tr>
-                <tr><td class="label">Marital Status:</td><td>Unmarried</td></tr>
-                <tr><td class="label">Gender:</td><td>Female</td></tr>
-                <tr><td class="label">Blood Group:</td><td>AB+</td></tr>
-                <tr><td class="label">Home District:</td><td>Chattogram</td></tr>
-                <tr><td class="label">Permanent Address:</td><td>Vill: Baiddyapara, P.O: Saroatali, P.S: Boalkhali, Dist: Chattogram</td></tr>
-                <tr><td class="label">Interests:</td><td>Recitation, Singing Song, Travel, Creative Work.</td></tr>
-            </table>
-        </section>
+      </div>
+    </main>
 
-        <section>
-            <h2>References</h2>
-            <div class="reference-block">
-                <div class="reference-title">Professional Reference</div>
-                <div class="reference-detail">
-                    <strong>Mr. Apelo Barua</strong>, General Manager<br>
-                    5R Associates<br>
-                    Portland Sattar Tower, 4th floor. 1776 Stand Road, Barek Building Mor.<br>
-                    Chattogram, Bangladesh.<br>
-                    Mobile: 01717598430
-                </div>
-            </div>
-            <div class="reference-block">
-                <div class="reference-title">Academic Reference</div>
-                <div class="reference-detail">
-                    <strong>Ms. Joly Paul</strong>, Assistant Professor<br>
-                    Faculty of Business Studies<br>
-                    Premier University<br>
-                    Chattogram, Bangladesh.
-                </div>
-            </div>
-        </section>
-    </div>
+    <!-- 2. Reading View: Full Article -->
+    <main id="post-view" class="article-view">
+      <button class="back-button" onclick="showList()">← Back to all writing</button>
+      
+      <div class="article-header">
+        <div class="post-date">July 26, 2026</div>
+        <h1>The Art of Building Simple Things</h1>
+      </div>
+
+      <div class="article-content">
+        <p>When we first start building things—whether it is writing an essay, writing code, or taking a photo—we tend to focus on the essentials. But over time, complexity creeps in. We add more tools, more frameworks, and more rules.</p>
+        
+        <p>Real elegance is not about adding more; it is about removing everything that distracts from the core message. When you write on a blank page without digital clutter, your thoughts flow more naturally.</p>
+        
+        <p>By keeping our tools light and simple, we spend less time managing the system and more time doing the actual work that matters.</p>
+      </div>
+    </main>
+
+    <footer>
+      &copy; 2026 Saurab. Built with simple HTML and CSS.
+    </footer>
+  </div>
+
+  <script>
+    // Navigation logic
+    function showPost(postId) {
+      document.getElementById('home-view').style.display = 'none';
+      document.getElementById('post-view').style.display = 'block';
+      window.scrollTo(0, 0);
+    }
+
+    function showList() {
+      document.getElementById('post-view').style.display = 'none';
+      document.getElementById('home-view').style.display = 'block';
+      window.scrollTo(0, 0);
+    }
+
+    // Dark Mode Theme Logic
+    const themeBtn = document.getElementById('theme-btn');
+    
+    // Check local storage or system preference on load
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+      document.documentElement.setAttribute('data-theme', 'dark');
+      themeBtn.innerHTML = '☀️ Light';
+    } else {
+      document.documentElement.setAttribute('data-theme', 'light');
+      themeBtn.innerHTML = '🌙 Dark';
+    }
+
+    function toggleTheme() {
+      const currentTheme = document.documentElement.getAttribute('data-theme');
+      let newTheme = 'light';
+      
+      if (currentTheme === 'light') {
+        newTheme = 'dark';
+        themeBtn.innerHTML = '☀️ Light';
+      } else {
+        themeBtn.innerHTML = '🌙 Dark';
+      }
+      
+      document.documentElement.setAttribute('data-theme', newTheme);
+      localStorage.setItem('theme', newTheme);
+    }
+  </script>
 </body>
-</html>"""
-
-with open('/mnt/data/Urme_Barua_Resume.html', 'w', encoding='utf-8') as f:
-    f.write(html_content)
-
-print("HTML file created successfully.")
+</html>
