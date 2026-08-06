@@ -1,290 +1,126 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>My Writing</title>
-  <!-- Modern, readable fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Lora:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
-  
-  <style>
-    :root {
-      --bg: #fafafa;
-      --text-main: #1a1a1a;
-      --text-muted: #666666;
-      --text-article: #2a2a2a;
-      --accent: #2563eb;
-      --border: #e5e5e5;
-      --button-bg: #eaeaea;
-    }
-
-    /* Dark Mode Theme Colors */
-    [data-theme="dark"] {
-      --bg: #121212;
-      --text-main: #ededed;
-      --text-muted: #888888;
-      --text-article: #cccccc;
-      --accent: #60a5fa;
-      --border: #2a2a2a;
-      --button-bg: #222222;
-    }
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    body {
-      background-color: var(--bg);
-      color: var(--text-main);
-      font-family: 'Inter', sans-serif;
-      line-height: 1.6;
-      -webkit-font-smoothing: antialiased;
-      transition: background-color 0.3s ease, color 0.3s ease;
-    }
-
-    /* Layout */
-    .container {
-      max-width: 680px;
-      margin: 0 auto;
-      padding: 0 20px;
-    }
-
-    header {
-      padding: 60px 0 40px;
-      border-bottom: 1px solid var(--border);
-      margin-bottom: 40px;
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      transition: border-color 0.3s ease;
-    }
-
-    .site-title {
-      font-size: 1.5rem;
-      font-weight: 600;
-      letter-spacing: -0.03em;
-      cursor: pointer;
-    }
-
-    .site-bio {
-      color: var(--text-muted);
-      margin-top: 8px;
-      font-size: 0.95rem;
-      transition: color 0.3s ease;
-    }
-
-    /* Theme Toggle Button */
-    .theme-toggle {
-      background-color: var(--button-bg);
-      border: 1px solid var(--border);
-      color: var(--text-main);
-      padding: 8px 12px;
-      border-radius: 20px;
-      font-size: 0.85rem;
-      font-weight: 500;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      transition: background-color 0.2s, border-color 0.2s, color 0.2s;
-    }
-
-    .theme-toggle:hover {
-      border-color: var(--accent);
-    }
-
-    /* Post List View */
-    .post-list {
-      display: flex;
-      flex-direction: column;
-      gap: 36px;
-    }
-
-    .post-preview {
-      cursor: pointer;
-    }
-
-    .post-date {
-      font-size: 0.85rem;
-      color: var(--text-muted);
-      margin-bottom: 6px;
-      transition: color 0.3s ease;
-    }
-
-    .post-title {
-      font-size: 1.35rem;
-      font-weight: 600;
-      letter-spacing: -0.02em;
-      margin-bottom: 8px;
-      transition: color 0.2s;
-    }
-
-    .post-preview:hover .post-title {
-      color: var(--accent);
-    }
-
-    .post-excerpt {
-      color: var(--text-muted);
-      font-size: 0.95rem;
-      line-height: 1.5;
-      transition: color 0.3s ease;
-    }
-
-    /* Article Reading View */
-    .article-view {
-      display: none; /* Hidden by default */
-    }
-
-    .back-button {
-      background: none;
-      border: none;
-      color: var(--accent);
-      font-family: 'Inter', sans-serif;
-      font-size: 0.9rem;
-      font-weight: 500;
-      cursor: pointer;
-      margin-bottom: 32px;
-      padding: 0;
-    }
-
-    .back-button:hover {
-      text-decoration: underline;
-    }
-
-    .article-header {
-      margin-bottom: 32px;
-    }
-
-    .article-header h1 {
-      font-size: 2.2rem;
-      font-weight: 600;
-      letter-spacing: -0.03em;
-      line-height: 1.25;
-      margin-bottom: 12px;
-    }
-
-    /* Reading typography */
-    .article-content {
-      font-family: 'Lora', serif;
-      font-size: 1.15rem;
-      line-height: 1.8;
-      color: var(--text-article);
-      transition: color 0.3s ease;
-    }
-
-    .article-content p {
-      margin-bottom: 24px;
-    }
-
-    footer {
-      margin-top: 80px;
-      padding: 40px 0;
-      border-top: 1px solid var(--border);
-      text-align: center;
-      font-size: 0.85rem;
-      color: var(--text-muted);
-      transition: border-color 0.3s ease, color 0.3s ease;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Real Mail Sender</title>
+    <style>
+        /* CSS for styling the page */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f2f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .app-box {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 500px;
+        }
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+        input, select, textarea {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0 20px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+        /* Makes the text area look a bit like real paper */
+        .paper {
+            background-color: #fffdf2; 
+            border: 1px solid #d4cbb3;
+            font-size: 16px;
+            line-height: 1.5;
+            resize: none;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            padding: 12px;
+            width: 100%;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        /* Hide the letter section initially */
+        #letter-view {
+            display: none;
+        }
+    </style>
 </head>
 <body>
 
-  <div class="container">
-    <header>
-      <div>
-        <div class="site-title" onclick="showList()">Saurab's Writing</div>
-        <p class="site-bio">Thoughts, notes, and essays on technology, life, and learning.</p>
-      </div>
-      <button class="theme-toggle" id="theme-btn" onclick="toggleTheme()">🌙 Dark</button>
-    </header>
-
-    <!-- 1. Homepage: List of Writings -->
-    <main id="home-view">
-      <div class="post-list">
+    <div class="app-box">
         
-        <article class="post-preview" onclick="showPost('post-1')">
-          <div class="post-date">July 26, 2026</div>
-          <h2 class="post-title">The Art of Building Simple Things</h2>
-          <p class="post-excerpt">Why modern tools often overcomplicate creation, and how stripping away the non-essential brings back the joy of building.</p>
-        </article>
+        <!-- Login Screen -->
+        <div id="login-view">
+            <h2>Log In</h2>
+            <label>Email</label>
+            <input type="email" id="email" placeholder="name@example.com">
+            
+            <label>Password</label>
+            <input type="password" id="password" placeholder="••••••••">
+            
+            <button onclick="login()">Log In</button>
+        </div>
 
-        <article class="post-preview" onclick="showPost('post-1')">
-          <div class="post-date">July 12, 2026</div>
-          <h2 class="post-title">Notes on Focus and Consistency</h2>
-          <p class="post-excerpt">Small daily progress compounds faster than sporadic bursts of intense work. Here is what I learned from tracking my habits.</p>
-        </article>
+        <!-- Letter Writing Screen -->
+        <div id="letter-view">
+            <h2>Write Your Letter</h2>
+            <p style="text-align: center; color: #555;">Letters left this month: <strong>3</strong></p>
+            
+            <label>Customize Font:</label>
+            <select id="font-style" onchange="updateFont()">
+                <option value="Arial, sans-serif">Standard</option>
+                <option value="'Courier New', monospace">Typewriter</option>
+                <option value="'Brush Script MT', cursive">Handwriting</option>
+            </select>
 
-      </div>
-    </main>
+            <textarea id="letter-content" class="paper" rows="12" placeholder="Start typing your letter here..."></textarea>
+            
+            <button onclick="sendLetter()">Send Physical Letter</button>
+        </div>
 
-    <!-- 2. Reading View: Full Article -->
-    <main id="post-view" class="article-view">
-      <button class="back-button" onclick="showList()">← Back to all writing</button>
-      
-      <div class="article-header">
-        <div class="post-date">July 26, 2026</div>
-        <h1>The Art of Building Simple Things</h1>
-      </div>
+    </div>
 
-      <div class="article-content">
-        <p>When we first start building things—whether it is writing an essay, writing code, or taking a photo—we tend to focus on the essentials. But over time, complexity creeps in. We add more tools, more frameworks, and more rules.</p>
+    <script>
+        // JavaScript for interactivity
         
-        <p>Real elegance is not about adding more; it is about removing everything that distracts from the core message. When you write on a blank page without digital clutter, your thoughts flow more naturally.</p>
-        
-        <p>By keeping our tools light and simple, we spend less time managing the system and more time doing the actual work that matters.</p>
-      </div>
-    </main>
+        function login() {
+            // Hides login and shows the letter screen
+            document.getElementById('login-view').style.display = 'none';
+            document.getElementById('letter-view').style.display = 'block';
+        }
 
-    <footer>
-      &copy; 2026 Saurab. Built with simple HTML and CSS.
-    </footer>
-  </div>
+        function updateFont() {
+            // Changes the font inside the text area based on the dropdown
+            let selectedFont = document.getElementById('font-style').value;
+            document.getElementById('letter-content').style.fontFamily = selectedFont;
+        }
 
-  <script>
-    // Navigation logic
-    function showPost(postId) {
-      document.getElementById('home-view').style.display = 'none';
-      document.getElementById('post-view').style.display = 'block';
-      window.scrollTo(0, 0);
-    }
+        function sendLetter() {
+            let text = document.getElementById('letter-content').value;
+            if(text.trim() === "") {
+                alert("Please write something before sending!");
+            } else {
+                alert("Success! Your letter has been sent to the printer.");
+            }
+        }
+    </script>
 
-    function showList() {
-      document.getElementById('post-view').style.display = 'none';
-      document.getElementById('home-view').style.display = 'block';
-      window.scrollTo(0, 0);
-    }
-
-    // Dark Mode Theme Logic
-    const themeBtn = document.getElementById('theme-btn');
-    
-    // Check local storage or system preference on load
-    const savedTheme = localStorage.getItem('theme');
-    if (savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-      document.documentElement.setAttribute('data-theme', 'dark');
-      themeBtn.innerHTML = '☀️ Light';
-    } else {
-      document.documentElement.setAttribute('data-theme', 'light');
-      themeBtn.innerHTML = '🌙 Dark';
-    }
-
-    function toggleTheme() {
-      const currentTheme = document.documentElement.getAttribute('data-theme');
-      let newTheme = 'light';
-      
-      if (currentTheme === 'light') {
-        newTheme = 'dark';
-        themeBtn.innerHTML = '☀️ Light';
-      } else {
-        themeBtn.innerHTML = '🌙 Dark';
-      }
-      
-      document.documentElement.setAttribute('data-theme', newTheme);
-      localStorage.setItem('theme', newTheme);
-    }
-  </script>
 </body>
 </html>
