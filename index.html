@@ -4,9 +4,81 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>স্বপ্ন ও বন্ধুত্ব</title>
-    <link rel="stylesheet" href="style.css">
+    
+    <style>
+        /* --- CSS শুরু --- */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f2f5;
+            display: flex;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container, #main-app {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 500px;
+        }
+
+        .hidden { 
+            display: none; 
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-sizing: border-box;
+        }
+
+        button {
+            background: #6c5ce7;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover { 
+            background: #5b4bc4; 
+        }
+
+        nav {
+            margin-bottom: 20px;
+            display: flex;
+            gap: 10px;
+        }
+
+        .friend-list p {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+
+        .post {
+            background: #fafafa;
+            padding: 15px;
+            margin-top: 15px;
+            border-left: 5px solid #6c5ce7;
+            border-radius: 4px;
+        }
+        /* --- CSS শেষ --- */
+    </style>
 </head>
 <body>
+
     <!-- লগইন সেকশন -->
     <div id="login-section" class="container">
         <h2>স্বাগতম!</h2>
@@ -14,7 +86,7 @@
         <button onclick="login()">প্রবেশ করুন</button>
     </div>
 
-    <!-- মূল ওয়েবসাইট (লগইন করার পর দেখা যাবে) -->
+    <!-- মূল ওয়েবসাইট -->
     <div id="main-app" class="hidden">
         <nav>
             <button onclick="showTab('dreams')">স্বপ্ন নিয়ে লিখুন</button>
@@ -39,107 +111,53 @@
         </div>
     </div>
 
-    <script src="script.js"></script>
+    <script>
+        // --- JavaScript শুরু ---
+        let currentUser = "";
+
+        // লগইন করার ফাংশন
+        function login() {
+            const name = document.getElementById("nickname").value;
+            if (name.trim() !== "") {
+                currentUser = name;
+                document.getElementById("login-section").classList.add("hidden");
+                document.getElementById("main-app").classList.remove("hidden");
+            } else {
+                alert("দয়া করে একটি নিকনেম দিন!");
+            }
+        }
+
+        // ট্যাব পরিবর্তন করার ফাংশন
+        function showTab(tabId) {
+            document.getElementById("dreams").classList.add("hidden");
+            document.getElementById("friends").classList.add("hidden");
+            document.getElementById(tabId).classList.remove("hidden");
+        }
+
+        // ডাটাবেসে স্বপ্ন পোস্ট করার ফাংশন
+        function postDream() {
+            const text = document.getElementById("dream-text").value;
+            if (text.trim() !== "") {
+                
+                // আপনার Python ব্যাকএন্ডে ডেটা পাঠানো
+                fetch('http://127.0.0.1:5000/post_dream', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ nickname: currentUser, dream_text: text })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    // সেভ হওয়ার পর ওয়েবসাইটে দেখানো
+                    const feed = document.getElementById("dream-feed");
+                    feed.innerHTML = `<div class="post"><strong>${currentUser}:</strong> ${text}</div>` + feed.innerHTML;
+                    document.getElementById("dream-text").value = "";
+                })
+                .catch(error => {
+                    alert("সার্ভারে কানেক্ট করা যাচ্ছে না। আপনার Python ব্যাকএন্ড চালু আছে তো?");
+                });
+            }
+        }
+        // --- JavaScript শেষ ---
+    </script>
 </body>
 </html>
-
-
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f0f2f5;
-    display: flex;
-    justify-content: center;
-    padding: 20px;
-}
-
-.container, #main-app {
-    background: white;
-    padding: 25px;
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    width: 100%;
-    max-width: 500px;
-}
-
-.hidden { 
-    display: none; 
-}
-
-input, textarea {
-    width: 100%;
-    padding: 12px;
-    margin: 10px 0;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    box-sizing: border-box;
-}
-
-button {
-    background: #6c5ce7;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 16px;
-}
-
-button:hover { 
-    background: #5b4bc4; 
-}
-
-nav {
-    margin-bottom: 20px;
-    display: flex;
-    gap: 10px;
-}
-
-.friend-list p {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background: #f8f9fa;
-    padding: 15px;
-    border-radius: 8px;
-    margin-bottom: 10px;
-}
-
-.post {
-    background: #fafafa;
-    padding: 15px;
-    margin-top: 15px;
-    border-left: 5px solid #6c5ce7;
-    border-radius: 4px;
-}
-
-
-let currentUser = "";
-
-// লগইন করার ফাংশন
-function login() {
-    const name = document.getElementById("nickname").value;
-    if (name.trim() !== "") {
-        currentUser = name;
-        document.getElementById("login-section").classList.add("hidden");
-        document.getElementById("main-app").classList.remove("hidden");
-    } else {
-        alert("দয়া করে একটি নিকনেম দিন!");
-    }
-}
-
-// এক ট্যাব থেকে অন্য ট্যাবে যাওয়ার ফাংশন
-function showTab(tabId) {
-    document.getElementById("dreams").classList.add("hidden");
-    document.getElementById("friends").classList.add("hidden");
-    document.getElementById(tabId).classList.remove("hidden");
-}
-
-// স্বপ্ন পোস্ট করার ফাংশন
-function postDream() {
-    const text = document.getElementById("dream-text").value;
-    if (text.trim() !== "") {
-        const feed = document.getElementById("dream-feed");
-        feed.innerHTML = `<div class="post"><strong>${currentUser}:</strong> ${text}</div>` + feed.innerHTML;
-        document.getElementById("dream-text").value = "";
-    }
-}
