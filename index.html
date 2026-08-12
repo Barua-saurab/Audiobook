@@ -1,126 +1,145 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="bn">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Real Mail Sender</title>
-    <style>
-        /* CSS for styling the page */
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f0f2f5;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-        }
-        .app-box {
-            background: white;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-            width: 100%;
-            max-width: 500px;
-        }
-        h2 {
-            text-align: center;
-            color: #333;
-        }
-        input, select, textarea {
-            width: 100%;
-            padding: 12px;
-            margin: 10px 0 20px 0;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            box-sizing: border-box;
-        }
-        /* Makes the text area look a bit like real paper */
-        .paper {
-            background-color: #fffdf2; 
-            border: 1px solid #d4cbb3;
-            font-size: 16px;
-            line-height: 1.5;
-            resize: none;
-        }
-        button {
-            background-color: #007bff;
-            color: white;
-            padding: 12px;
-            width: 100%;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 16px;
-        }
-        button:hover {
-            background-color: #0056b3;
-        }
-        /* Hide the letter section initially */
-        #letter-view {
-            display: none;
-        }
-    </style>
+    <title>স্বপ্ন ও বন্ধুত্ব</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
-    <div class="app-box">
-        
-        <!-- Login Screen -->
-        <div id="login-view">
-            <h2>Log In</h2>
-            <label>Email</label>
-            <input type="email" id="email" placeholder="name@example.com">
-            
-            <label>Password</label>
-            <input type="password" id="password" placeholder="••••••••">
-            
-            <button onclick="login()">Log In</button>
-        </div>
-
-        <!-- Letter Writing Screen -->
-        <div id="letter-view">
-            <h2>Write Your Letter</h2>
-            <p style="text-align: center; color: #555;">Letters left this month: <strong>3</strong></p>
-            
-            <label>Customize Font:</label>
-            <select id="font-style" onchange="updateFont()">
-                <option value="Arial, sans-serif">Standard</option>
-                <option value="'Courier New', monospace">Typewriter</option>
-                <option value="'Brush Script MT', cursive">Handwriting</option>
-            </select>
-
-            <textarea id="letter-content" class="paper" rows="12" placeholder="Start typing your letter here..."></textarea>
-            
-            <button onclick="sendLetter()">Send Physical Letter</button>
-        </div>
-
+    <!-- লগইন সেকশন -->
+    <div id="login-section" class="container">
+        <h2>স্বাগতম!</h2>
+        <input type="text" id="nickname" placeholder="আপনার নিকনেম লিখুন...">
+        <button onclick="login()">প্রবেশ করুন</button>
     </div>
 
-    <script>
-        // JavaScript for interactivity
-        
-        function login() {
-            // Hides login and shows the letter screen
-            document.getElementById('login-view').style.display = 'none';
-            document.getElementById('letter-view').style.display = 'block';
-        }
+    <!-- মূল ওয়েবসাইট (লগইন করার পর দেখা যাবে) -->
+    <div id="main-app" class="hidden">
+        <nav>
+            <button onclick="showTab('dreams')">স্বপ্ন নিয়ে লিখুন</button>
+            <button onclick="showTab('friends')">বন্ধু খুঁজুন</button>
+        </nav>
 
-        function updateFont() {
-            // Changes the font inside the text area based on the dropdown
-            let selectedFont = document.getElementById('font-style').value;
-            document.getElementById('letter-content').style.fontFamily = selectedFont;
-        }
+        <!-- স্বপ্নের সেকশন -->
+        <div id="dreams" class="tab-content">
+            <h3>আপনার স্বপ্ন শেয়ার করুন</h3>
+            <textarea id="dream-text" placeholder="আপনার স্বপ্ন বা ভাবনাগুলো এখানে লিখুন..."></textarea>
+            <button onclick="postDream()">পোস্ট করুন</button>
+            <div id="dream-feed"></div>
+        </div>
 
-        function sendLetter() {
-            let text = document.getElementById('letter-content').value;
-            if(text.trim() === "") {
-                alert("Please write something before sending!");
-            } else {
-                alert("Success! Your letter has been sent to the printer.");
-            }
-        }
-    </script>
+        <!-- বন্ধুদের সেকশন -->
+        <div id="friends" class="tab-content hidden">
+            <h3>নতুন বন্ধু খুঁজুন</h3>
+            <div class="friend-list">
+                <p>🧑‍🦱 আকাশ <button>চ্যাট করুন</button></p>
+                <p>👩 নদী <button>চ্যাট করুন</button></p>
+            </div>
+        </div>
+    </div>
 
+    <script src="script.js"></script>
 </body>
 </html>
+
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f2f5;
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+}
+
+.container, #main-app {
+    background: white;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    width: 100%;
+    max-width: 500px;
+}
+
+.hidden { 
+    display: none; 
+}
+
+input, textarea {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-sizing: border-box;
+}
+
+button {
+    background: #6c5ce7;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+button:hover { 
+    background: #5b4bc4; 
+}
+
+nav {
+    margin-bottom: 20px;
+    display: flex;
+    gap: 10px;
+}
+
+.friend-list p {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+}
+
+.post {
+    background: #fafafa;
+    padding: 15px;
+    margin-top: 15px;
+    border-left: 5px solid #6c5ce7;
+    border-radius: 4px;
+}
+
+
+let currentUser = "";
+
+// লগইন করার ফাংশন
+function login() {
+    const name = document.getElementById("nickname").value;
+    if (name.trim() !== "") {
+        currentUser = name;
+        document.getElementById("login-section").classList.add("hidden");
+        document.getElementById("main-app").classList.remove("hidden");
+    } else {
+        alert("দয়া করে একটি নিকনেম দিন!");
+    }
+}
+
+// এক ট্যাব থেকে অন্য ট্যাবে যাওয়ার ফাংশন
+function showTab(tabId) {
+    document.getElementById("dreams").classList.add("hidden");
+    document.getElementById("friends").classList.add("hidden");
+    document.getElementById(tabId).classList.remove("hidden");
+}
+
+// স্বপ্ন পোস্ট করার ফাংশন
+function postDream() {
+    const text = document.getElementById("dream-text").value;
+    if (text.trim() !== "") {
+        const feed = document.getElementById("dream-feed");
+        feed.innerHTML = `<div class="post"><strong>${currentUser}:</strong> ${text}</div>` + feed.innerHTML;
+        document.getElementById("dream-text").value = "";
+    }
+}
