@@ -3,109 +3,180 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Push-up Tracker</title>
-    <!-- Load Chart.js for the line chart -->
+    <title>Personal Tracker Dashboard</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         body { 
             font-family: Arial, sans-serif; 
-            max-width: 500px; 
-            margin: 40px auto; 
+            max-width: 800px; 
+            margin: 20px auto; 
             text-align: center; 
         }
+        .form-box {
+            border: 1px solid #ccc;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+        }
         input, button { 
-            padding: 10px; 
+            padding: 8px; 
             margin: 5px; 
-            font-size: 16px; 
+            font-size: 14px; 
         }
         button {
             cursor: pointer;
-            background-color: #28a745;
+            background-color: #007bff;
             color: white;
             border: none;
             border-radius: 4px;
         }
-        canvas { 
-            margin-top: 30px; 
+        .dashboard {
+            margin-top: 40px;
+        }
+        .chart-container {
+            margin-bottom: 50px;
         }
     </style>
 </head>
 <body>
 
-    <h2>Daily Push-up Tracker</h2>
-    
-    <input type="date" id="dateInput">
-    <input type="number" id="pushupInput" placeholder="Number of push-ups" min="1">
-    <button onclick="savePushups()">Add</button>
+    <h2>Personal Tracker Dashboard</h2>
 
-    <canvas id="pushupChart"></canvas>
+    <div class="form-box">
+        <h3>Log Push-ups</h3>
+        <input type="date" id="pushupDate">
+        <input type="number" id="pushupInput" placeholder="Number of push-ups" min="1">
+        <button onclick="savePushups()">Add Push-ups</button>
+    </div>
+
+    <div class="form-box">
+        <h3>Log Social Media (in minutes)</h3>
+        <input type="date" id="socialDate">
+        <input type="number" id="fbInput" placeholder="Facebook mins" min="0">
+        <input type="number" id="igInput" placeholder="Instagram mins" min="0">
+        <input type="number" id="ytInput" placeholder="YouTube mins" min="0">
+        <input type="number" id="waInput" placeholder="WhatsApp mins" min="0">
+        <button onclick="saveSocialMedia()">Add Screen Time</button>
+    </div>
+
+    <div class="dashboard">
+        <div class="chart-container">
+            <canvas id="pushupChart"></canvas>
+        </div>
+        <div class="chart-container">
+            <canvas id="socialChart"></canvas>
+        </div>
+    </div>
 
     <script>
-        // Set today's date automatically
-        document.getElementById('dateInput').valueAsDate = new Date();
+        // Set today's date automatically for both inputs
+        const today = new Date();
+        document.getElementById('pushupDate').valueAsDate = today;
+        document.getElementById('socialDate').valueAsDate = today;
 
-        let chart = null;
+        let pChart = null;
+        let sChart = null;
 
-        function getSavedData() {
-            const data = JSON.parse(localStorage.getItem('pushupHistory')) || {};
-            // Sort dates from oldest to newest
-            const sortedDates = Object.keys(data).sort();
-            const counts = sortedDates.map(date => data[date]);
-            return { labels: sortedDates, values: counts };
+        // --- Push-up Logic ---
+        function savePushups() {
+            const date = document.getElementById('pushupDate').value;
+            const count = parseInt(document.getElementById('pushupInput').value);
+            if (!date || isNaN(count)) return;
+
+            const data = JSON.parse(localStorage.getItem('pushupData')) || {};
+            data[date] = (data[date] || 0) + count;
+            localStorage.setItem('pushupData', JSON.stringify(data));
+            
+            document.getElementById('pushupInput').value = ''; 
+            drawPushupChart();
         }
 
-        function drawChart() {
-            const data = getSavedData();
+        function drawPushupChart() {
+            const data = JSON.parse(localStorage.getItem('pushupData')) || {};
+            const dates = Object.keys(data).sort();
+            const counts = dates.map(d => data[d]);
+
+            if (pChart) pChart.destroy();
+
             const ctx = document.getElementById('pushupChart').getContext('2d');
-
-            // Clear old chart before drawing a new one
-            if (chart) {
-                chart.destroy();
-            }
-
-            chart = new Chart(ctx, {
+            pChart = new Chart(ctx, {
                 type: 'line',
                 data: {
-                    labels: data.labels,
+                    labels: dates,
                     datasets: [{
                         label: 'Push-ups',
-                        data: data.values,
-                        borderColor: '#007bff',
-                        backgroundColor: '#007bff',
+                        data: counts,
+                        borderColor: '#28a745',
+                        backgroundColor: '#28a745',
                         tension: 0.1
                     }]
                 },
-                options: {
-                    scales: {
-                        y: { beginAtZero: true }
-                    }
+                options: { scales: { y: { beginAtZero: true } } }
+            });
+        }
+
+        // --- Social Media Logic ---
+        function saveSocialMedia() {
+            const date = document.getElementById('socialDate').value;
+            const fb = parseInt(document.getElementById('fbInput').value) || 0;
+            const ig = parseInt(document.getElementById('igInput').value) || 0;
+            const yt = parseInt(document.getElementById('ytInput').value) || 0;
+            const wa = parseInt(document.getElementById('waInput').value) || 0;
+
+            if (!date) return;
+
+            const data = JSON.parse(localStorage.getItem('socialData')) || {};
+            
+            // Add new minutes to any existing minutes for that day
+            if (!data[date]) data[date] = { fb: 0, ig: 0, yt: 0, wa: 0 };
+            data[date].fb += fb;
+            data[date].ig += ig;
+            data[date].yt += yt;
+            data[date].wa += wa;
+
+            localStorage.setItem('socialData', JSON.stringify(data));
+            
+            document.getElementById('fbInput').value = '';
+            document.getElementById('igInput').value = '';
+            document.getElementById('ytInput').value = '';
+            document.getElementById('waInput').value = '';
+            
+            drawSocialChart();
+        }
+
+        function drawSocialChart() {
+            const data = JSON.parse(localStorage.getItem('socialData')) || {};
+            const dates = Object.keys(data).sort();
+            
+            const fbData = dates.map(d => data[d].fb);
+            const igData = dates.map(d => data[d].ig);
+            const ytData = dates.map(d => data[d].yt);
+            const waData = dates.map(d => data[d].wa);
+
+            if (sChart) sChart.destroy();
+
+            const ctx = document.getElementById('socialChart').getContext('2d');
+            sChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: dates,
+                    datasets: [
+                        { label: 'Facebook', data: fbData, borderColor: '#1877F2', tension: 0.1 },
+                        { label: 'Instagram', data: igData, borderColor: '#E4405F', tension: 0.1 },
+                        { label: 'YouTube', data: ytData, borderColor: '#FF0000', tension: 0.1 },
+                        { label: 'WhatsApp', data: waData, borderColor: '#25D366', tension: 0.1 }
+                    ]
+                },
+                options: { 
+                    scales: { y: { beginAtZero: true, title: { display: true, text: 'Minutes' } } } 
                 }
             });
         }
 
-        function savePushups() {
-            const date = document.getElementById('dateInput').value;
-            const count = parseInt(document.getElementById('pushupInput').value);
-
-            if (!date || isNaN(count)) {
-                alert("Please enter a valid date and number.");
-                return;
-            }
-
-            const data = JSON.parse(localStorage.getItem('pushupHistory')) || {};
-            
-            // Add to the existing count if you enter multiple times a day
-            data[date] = (data[date] || 0) + count;
-            
-            localStorage.setItem('pushupHistory', JSON.stringify(data));
-            document.getElementById('pushupInput').value = ''; // Clear input
-            
-            drawChart(); // Update the chart
-        }
-
-        // Draw the chart when the page first loads
-        drawChart();
+        // Load charts on startup
+        drawPushupChart();
+        drawSocialChart();
     </script>
-
 </body>
 </html>
