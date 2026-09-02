@@ -6,35 +6,12 @@
     <title>Daily Fitness Tracker</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
-        body { 
-            font-family: Arial, sans-serif; 
-            max-width: 600px; 
-            margin: 40px auto; 
-            text-align: center; 
-        }
-        input, button { 
-            padding: 10px; 
-            margin: 5px; 
-            font-size: 16px; 
-        }
-        button {
-            cursor: pointer;
-            background-color: #28a745;
-            color: white;
-            border: none;
-            border-radius: 4px;
-        }
-        .water-btn {
-            background-color: #007bff;
-        }
-        canvas { 
-            margin-top: 20px; 
-        }
-        .section {
-            margin-bottom: 50px;
-            padding-bottom: 30px;
-            border-bottom: 1px solid #ddd;
-        }
+        body { font-family: Arial, sans-serif; max-width: 600px; margin: 40px auto; text-align: center; }
+        input, button { padding: 10px; margin: 5px; font-size: 16px; }
+        button { cursor: pointer; background-color: #28a745; color: white; border: none; border-radius: 4px; }
+        .water-btn { background-color: #007bff; }
+        canvas { margin-top: 20px; }
+        .section { margin-bottom: 50px; padding-bottom: 30px; border-bottom: 1px solid #ddd; }
     </style>
 </head>
 <body>
@@ -58,71 +35,87 @@
     </div>
 
     <script>
+        // Connected to your Hetzner server IP
+        const API_URL = 'http://91.99.54.224:5000'; 
+
         document.getElementById('dateInput').valueAsDate = new Date();
 
         let pushupChartObj = null;
         let waterChartObj = null;
 
-        // A single function to draw either the push-up or water chart
-        function drawChart(type, canvasId, labelText, lineColor, existingChart) {
-            const data = JSON.parse(localStorage.getItem(type + 'History')) || {};
-            const sortedDates = Object.keys(data).sort();
-            const counts = sortedDates.map(date => data[date]);
+        async function loadHistory() {
+            try {
+                const response = await fetch(API_URL + '/history');
+                const data = await response.json();
 
+                const pushups = { labels: [], values: [] };
+                const water = { labels: [], values: [] };
+
+                data.forEach(row => {
+                    if (row.activity_type === 'pushup') {
+                        pushups.labels.push(row.date);
+                        pushups.values.push(row.total);
+                    } else if (row.activity_type === 'water') {
+                        water.labels.push(row.date);
+                        water.values.push(row.total);
+                    }
+                });
+
+                drawCharts(pushups, water);
+            } catch (error) {
+                console.error('Failed to load data:', error);
+            }
+        }
+
+        function drawCharts(pushupData, waterData) {
+            pushupChartObj = createChart('pushupChart', 'Push-ups', '#28a745', pushupData, pushupChartObj);
+            waterChartObj = createChart('waterChart', 'Water (ml)', '#007bff', waterData, waterChartObj);
+        }
+
+        function createChart(canvasId, labelText, lineColor, data, existingChart) {
+            if (existingChart) existingChart.destroy();
             const ctx = document.getElementById(canvasId).getContext('2d');
             
-            if (existingChart) {
-                existingChart.destroy();
-            }
-
             return new Chart(ctx, {
                 type: 'line',
                 data: {
-                    labels: sortedDates,
-                    datasets: [{
-                        label: labelText,
-                        data: counts,
-                        borderColor: lineColor,
-                        backgroundColor: lineColor,
-                        tension: 0.1
-                    }]
+                    labels: data.labels,
+                    datasets: [{ label: labelText, data: data.values, borderColor: lineColor, backgroundColor: lineColor, tension: 0.1 }]
                 },
-                options: {
-                    scales: {
-                        y: { beginAtZero: true }
-                    }
-                }
+                options: { scales: { y: { beginAtZero: true } } }
             });
         }
 
-        function updateAllCharts() {
-            pushupChartObj = drawChart('pushup', 'pushupChart', 'Push-ups', '#28a745', pushupChartObj);
-            waterChartObj = drawChart('water', 'waterChart', 'Water (ml)', '#007bff', waterChartObj);
-        }
-
-        // A single function to save data for either push-ups or water
-        function saveData(type) {
+        async function saveData(type) {
             const date = document.getElementById('dateInput').value;
             const inputField = document.getElementById(type + 'Input');
-            const count = parseInt(inputField.value);
+            const amount = parseInt(inputField.value);
 
-            if (!date || isNaN(count)) {
+            if (!date || isNaN(amount)) {
                 alert("Please enter a valid date and number.");
                 return;
             }
 
-            const storageKey = type + 'History';
-            const data = JSON.parse(localStorage.getItem(storageKey)) || {};
-            
-            data[date] = (data[date] || 0) + count;
-            
-            localStorage.setItem(storageKey, JSON.stringify(data));
-            inputField.value = ''; 
-            
-            updateAllCharts(); 
+            try {
+                const response = await fetch(API_URL + '/save', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ date: date, type: type, amount: amount })
+                });
+
+                if (response.ok) {
+                    inputField.value = ''; 
+                    loadHistory(); 
+                } else {
+                    alert("Failed to save data.");
+                }
+            } catch (error) {
+                console.error('Error saving data:', error);
+                alert("Could not connect to the server.");
+            }
         }
 
-        updateAllCharts();
+        loadHistory();
     </script>
 
 </body>
