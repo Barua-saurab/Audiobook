@@ -3,13 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Push-up Tracker</title>
-    <!-- Load Chart.js for the line chart -->
+    <title>Daily Fitness Tracker</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         body { 
             font-family: Arial, sans-serif; 
-            max-width: 500px; 
+            max-width: 600px; 
             margin: 40px auto; 
             text-align: center; 
         }
@@ -25,53 +24,66 @@
             border: none;
             border-radius: 4px;
         }
+        .water-btn {
+            background-color: #007bff;
+        }
         canvas { 
-            margin-top: 30px; 
+            margin-top: 20px; 
+        }
+        .section {
+            margin-bottom: 50px;
+            padding-bottom: 30px;
+            border-bottom: 1px solid #ddd;
         }
     </style>
 </head>
 <body>
 
-    <h2>Daily Push-up Tracker</h2>
+    <h2>Daily Tracker</h2>
     
     <input type="date" id="dateInput">
-    <input type="number" id="pushupInput" placeholder="Number of push-ups" min="1">
-    <button onclick="savePushups()">Add</button>
 
-    <canvas id="pushupChart"></canvas>
+    <div class="section">
+        <h3>Push-ups</h3>
+        <input type="number" id="pushupInput" placeholder="Number of push-ups" min="1">
+        <button onclick="saveData('pushup')">Add Push-ups</button>
+        <canvas id="pushupChart"></canvas>
+    </div>
+
+    <div class="section">
+        <h3>Water Intake</h3>
+        <input type="number" id="waterInput" placeholder="Water in ml" min="1">
+        <button class="water-btn" onclick="saveData('water')">Add Water</button>
+        <canvas id="waterChart"></canvas>
+    </div>
 
     <script>
-        // Set today's date automatically
         document.getElementById('dateInput').valueAsDate = new Date();
 
-        let chart = null;
+        let pushupChartObj = null;
+        let waterChartObj = null;
 
-        function getSavedData() {
-            const data = JSON.parse(localStorage.getItem('pushupHistory')) || {};
-            // Sort dates from oldest to newest
+        // A single function to draw either the push-up or water chart
+        function drawChart(type, canvasId, labelText, lineColor, existingChart) {
+            const data = JSON.parse(localStorage.getItem(type + 'History')) || {};
             const sortedDates = Object.keys(data).sort();
             const counts = sortedDates.map(date => data[date]);
-            return { labels: sortedDates, values: counts };
-        }
 
-        function drawChart() {
-            const data = getSavedData();
-            const ctx = document.getElementById('pushupChart').getContext('2d');
-
-            // Clear old chart before drawing a new one
-            if (chart) {
-                chart.destroy();
+            const ctx = document.getElementById(canvasId).getContext('2d');
+            
+            if (existingChart) {
+                existingChart.destroy();
             }
 
-            chart = new Chart(ctx, {
+            return new Chart(ctx, {
                 type: 'line',
                 data: {
-                    labels: data.labels,
+                    labels: sortedDates,
                     datasets: [{
-                        label: 'Push-ups',
-                        data: data.values,
-                        borderColor: '#007bff',
-                        backgroundColor: '#007bff',
+                        label: labelText,
+                        data: counts,
+                        borderColor: lineColor,
+                        backgroundColor: lineColor,
                         tension: 0.1
                     }]
                 },
@@ -83,28 +95,34 @@
             });
         }
 
-        function savePushups() {
+        function updateAllCharts() {
+            pushupChartObj = drawChart('pushup', 'pushupChart', 'Push-ups', '#28a745', pushupChartObj);
+            waterChartObj = drawChart('water', 'waterChart', 'Water (ml)', '#007bff', waterChartObj);
+        }
+
+        // A single function to save data for either push-ups or water
+        function saveData(type) {
             const date = document.getElementById('dateInput').value;
-            const count = parseInt(document.getElementById('pushupInput').value);
+            const inputField = document.getElementById(type + 'Input');
+            const count = parseInt(inputField.value);
 
             if (!date || isNaN(count)) {
                 alert("Please enter a valid date and number.");
                 return;
             }
 
-            const data = JSON.parse(localStorage.getItem('pushupHistory')) || {};
+            const storageKey = type + 'History';
+            const data = JSON.parse(localStorage.getItem(storageKey)) || {};
             
-            // Add to the existing count if you enter multiple times a day
             data[date] = (data[date] || 0) + count;
             
-            localStorage.setItem('pushupHistory', JSON.stringify(data));
-            document.getElementById('pushupInput').value = ''; // Clear input
+            localStorage.setItem(storageKey, JSON.stringify(data));
+            inputField.value = ''; 
             
-            drawChart(); // Update the chart
+            updateAllCharts(); 
         }
 
-        // Draw the chart when the page first loads
-        drawChart();
+        updateAllCharts();
     </script>
 
 </body>
