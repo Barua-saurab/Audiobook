@@ -1,122 +1,104 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Daily Fitness Tracker</title>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <style>
-        body { font-family: Arial, sans-serif; max-width: 600px; margin: 40px auto; text-align: center; }
-        input, button { padding: 10px; margin: 5px; font-size: 16px; }
-        button { cursor: pointer; background-color: #28a745; color: white; border: none; border-radius: 4px; }
-        .water-btn { background-color: #007bff; }
-        canvas { margin-top: 20px; }
-        .section { margin-bottom: 50px; padding-bottom: 30px; border-bottom: 1px solid #ddd; }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Interactive Mind Map</title>
+<style>
+  body { font-family: sans-serif; background-color: #000; color: #fff; padding: 20px; }
+  ul { list-style-type: none; padding-left: 20px; border-left: 1px dashed #555; }
+  #root-list { border-left: none; padding-left: 0; }
+  
+  .node {
+    display: inline-block;
+    padding: 8px 12px;
+    margin: 6px 0;
+    border-radius: 6px;
+    font-size: 14px;
+    border: 1px solid #444;
+  }
+  
+  /* Colors based on the image levels */
+  .root { background-color: #e8eaf6; color: #1a237e; cursor: pointer; user-select: none; }
+  .category { background-color: #e3f2fd; color: #0d47a1; cursor: pointer; user-select: none; }
+  .subcategory { background-color: #e0f2f1; color: #004d40; cursor: pointer; user-select: none; }
+  .leaf { background-color: #e8f5e9; color: #1b5e20; }
+
+  /* Interactive icons */
+  .expandable::before { content: "+ "; font-weight: bold; }
+  .expanded::before { content: "- "; font-weight: bold; }
+  
+  /* Hide children by default */
+  .nested { display: none; }
+  .active { display: block; }
+</style>
 </head>
 <body>
 
-    <h2>Daily Tracker</h2>
-    
-    <input type="date" id="dateInput">
+<ul id="root-list">
+  <li><div class="node root expandable">Retail Management and HR Integration Project</div>
+    <ul class="nested">
+      
+      <!-- Category 1 -->
+      <li><div class="node category expandable">Data Infrastructure & Migration</div>
+        <ul class="nested">
+          <li><div class="node subcategory expandable">Local Environment Setup</div>
+             <ul class="nested">
+                 <li><div class="node leaf">Git Setup/VPC Configuration</div></li>
+                 <li><div class="node leaf">JIRA & Confluence Agreement Standard</div></li>
+             </ul>
+          </li>
+          <li><div class="node subcategory expandable">AWS Migration</div>
+             <ul class="nested">
+                 <li><div class="node leaf">Schema Mapping and Data Extraction</div></li>
+             </ul>
+          </li>
+        </ul>
+      </li>
 
-    <div class="section">
-        <h3>Push-ups</h3>
-        <input type="number" id="pushupInput" placeholder="Number of push-ups" min="1">
-        <button onclick="saveData('pushup')">Add Push-ups</button>
-        <canvas id="pushupChart"></canvas>
-    </div>
+      <!-- Category 2 -->
+      <li><div class="node category expandable">Analytics Implementation & Validation</div>
+        <ul class="nested">
+          <li><div class="node subcategory expandable">Data Engineering</div>
+            <ul class="nested">
+                <li><div class="node leaf">Cleaning and Normalization</div></li>
+                <li><div class="node leaf">SQL and Python Analysis and Copying</div></li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      
+      <!-- Category 3 -->
+      <li><div class="node category expandable">Productivity & Quality</div>
+        <ul class="nested">
+          <li><div class="node subcategory expandable">Performance Metrics</div>
+            <ul class="nested">
+                <li><div class="node leaf">Data Annotation Quality</div></li>
+            </ul>
+          </li>
+        </ul>
+      </li>
 
-    <div class="section">
-        <h3>Water Intake</h3>
-        <input type="number" id="waterInput" placeholder="Water in ml" min="1">
-        <button class="water-btn" onclick="saveData('water')">Add Water</button>
-        <canvas id="waterChart"></canvas>
-    </div>
+    </ul>
+  </li>
+</ul>
 
-    <script>
-        // Connected to your Hetzner server IP
-        const API_URL = 'https://saurab-fit.duckdns.org'; 
-
-        document.getElementById('dateInput').valueAsDate = new Date();
-
-        let pushupChartObj = null;
-        let waterChartObj = null;
-
-        async function loadHistory() {
-            try {
-                const response = await fetch(API_URL + '/history');
-                const data = await response.json();
-
-                const pushups = { labels: [], values: [] };
-                const water = { labels: [], values: [] };
-
-                data.forEach(row => {
-                    if (row.activity_type === 'pushup') {
-                        pushups.labels.push(row.date);
-                        pushups.values.push(row.total);
-                    } else if (row.activity_type === 'water') {
-                        water.labels.push(row.date);
-                        water.values.push(row.total);
-                    }
-                });
-
-                drawCharts(pushups, water);
-            } catch (error) {
-                console.error('Failed to load data:', error);
-            }
-        }
-
-        function drawCharts(pushupData, waterData) {
-            pushupChartObj = createChart('pushupChart', 'Push-ups', '#28a745', pushupData, pushupChartObj);
-            waterChartObj = createChart('waterChart', 'Water (ml)', '#007bff', waterData, waterChartObj);
-        }
-
-        function createChart(canvasId, labelText, lineColor, data, existingChart) {
-            if (existingChart) existingChart.destroy();
-            const ctx = document.getElementById(canvasId).getContext('2d');
-            
-            return new Chart(ctx, {
-                type: 'line',
-                data: {
-                    labels: data.labels,
-                    datasets: [{ label: labelText, data: data.values, borderColor: lineColor, backgroundColor: lineColor, tension: 0.1 }]
-                },
-                options: { scales: { y: { beginAtZero: true } } }
-            });
-        }
-
-        async function saveData(type) {
-            const date = document.getElementById('dateInput').value;
-            const inputField = document.getElementById(type + 'Input');
-            const amount = parseInt(inputField.value);
-
-            if (!date || isNaN(amount)) {
-                alert("Please enter a valid date and number.");
-                return;
-            }
-
-            try {
-                const response = await fetch(API_URL + '/save', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ date: date, type: type, amount: amount })
-                });
-
-                if (response.ok) {
-                    inputField.value = ''; 
-                    loadHistory(); 
-                } else {
-                    alert("Failed to save data.");
-                }
-            } catch (error) {
-                console.error('Error saving data:', error);
-                alert("Could not connect to the server.");
-            }
-        }
-
-        loadHistory();
-    </script>
+<script>
+  // Add click events to toggle branches
+  const expandables = document.querySelectorAll('.expandable');
+  
+  expandables.forEach(item => {
+    item.addEventListener('click', function() {
+      // Toggle the next sibling element (the <ul> list)
+      const siblingList = this.nextElementSibling;
+      if (siblingList && siblingList.classList.contains('nested')) {
+        siblingList.classList.toggle('active');
+        this.classList.toggle('expanded');
+        this.classList.toggle('expandable');
+      }
+    });
+  });
+</script>
 
 </body>
 </html>
