@@ -23,7 +23,6 @@
     margin-bottom: 40px;
   }
 
-  /* Thin red line above the dark border */
   .top-nav::after {
     content: '';
     position: absolute;
@@ -41,6 +40,11 @@
     font-size: 1.1em;
     font-weight: 300;
     margin: 0 15px;
+    cursor: pointer;
+  }
+
+  .top-nav a:hover {
+    color: #333;
   }
 
   .top-nav a.active {
@@ -79,7 +83,7 @@
   }
 
   main {
-    flex: 1; /* Takes up the remaining space for posts */
+    flex: 1; 
   }
 
   /* Sidebar styling for Categories */
@@ -114,6 +118,7 @@
     text-decoration: underline;
     text-decoration-color: #e2b4a7;
     font-size: 1.1em;
+    cursor: pointer;
   }
 
   .sidebar a:hover {
@@ -145,6 +150,18 @@
 
   .post-title:hover {
     text-decoration: underline;
+  }
+
+  .filter-notice {
+    margin-bottom: 20px;
+    font-style: italic;
+    color: #555;
+  }
+
+  .clear-filter {
+    color: #b7410e;
+    cursor: pointer;
+    font-weight: bold;
   }
 
   /* Margined Reading View Styling */
@@ -197,12 +214,12 @@
 
 <!-- Top Navigation -->
 <nav class="top-nav">
-  <a href="#">Galerie</a> <span class="nav-divider">|</span>
-  <a href="#">Bildarchiv</a> <span class="nav-divider">|</span>
-  <a href="#">Landkarte</a> <span class="nav-divider">|</span>
-  <a href="#" class="active">Blog</a> <span class="nav-divider">|</span>
-  <a href="#">Über mich</a> <span class="nav-divider">|</span>
-  <a href="#">Kontakt</a>
+  <a onclick="alert('This would go to the Galerie page.')">Galerie</a> <span class="nav-divider">|</span>
+  <a onclick="alert('This would go to the Bildarchiv page.')">Bildarchiv</a> <span class="nav-divider">|</span>
+  <a onclick="alert('This would go to the Landkarte page.')">Landkarte</a> <span class="nav-divider">|</span>
+  <a onclick="renderHome()" class="active">Blog</a> <span class="nav-divider">|</span>
+  <a onclick="alert('This would go to the Über mich page.')">Über mich</a> <span class="nav-divider">|</span>
+  <a onclick="alert('This would go to the Kontakt page.')">Kontakt</a>
 </nav>
 
 <div class="container">
@@ -214,49 +231,74 @@
     <!-- Main content area for blog posts -->
     <main id="app"></main>
 
-    <!-- Sidebar with Categories -->
+    <!-- Sidebar with Clickable Categories -->
     <aside class="sidebar">
       <h2>Kategorien</h2>
       <ul>
-        <li><a href="#">Fotografie allgemein</a></li>
-        <li><a href="#">Landschaftsfotografie</a></li>
-        <li><a href="#">Fototouren</a></li>
-        <li><a href="#">Analog</a></li>
-        <li><a href="#">Experimentell</a></li>
-        <li><a href="#">Review</a></li>
-        <li><a href="#">Pentax</a></li>
-        <li><a href="#">Pentacon Six</a></li>
-        <li><a href="#">Persönliches</a></li>
-        <li><a href="#">Meinung</a></li>
-        <li><a href="#">Nerd Alert</a></li>
+        <li><a onclick="filterCategory('Fotografie allgemein')">Fotografie allgemein</a></li>
+        <li><a onclick="filterCategory('Landschaftsfotografie')">Landschaftsfotografie</a></li>
+        <li><a onclick="filterCategory('Fototouren')">Fototouren</a></li>
+        <li><a onclick="filterCategory('Analog')">Analog</a></li>
+        <li><a onclick="filterCategory('Experimentell')">Experimentell</a></li>
+        <li><a onclick="filterCategory('Review')">Review</a></li>
+        <li><a onclick="filterCategory('Pentax')">Pentax</a></li>
+        <li><a onclick="filterCategory('Pentacon Six')">Pentacon Six</a></li>
+        <li><a onclick="filterCategory('Persönliches')">Persönliches</a></li>
+        <li><a onclick="filterCategory('Meinung')">Meinung</a></li>
+        <li><a onclick="filterCategory('Nerd Alert')">Nerd Alert</a></li>
       </ul>
     </aside>
   </div>
 </div>
 
 <script>
+  // Dummy posts using your specific categories
   const posts = [
     {
       id: 1,
       title: "The First Draft",
       date: "September 14, 2026",
-      category: "Writing",
+      category: "Persönliches",
       content: "Writing is a process of discovery. The blank page can be intimidating, but it is also a canvas for new ideas. Every word brings the story slightly more into focus."
     },
     {
       id: 2,
-      title: "Finding Inspiration",
+      title: "Morning Light in the Valley",
       date: "September 10, 2026",
-      category: "Persönliches",
-      content: "Sometimes inspiration strikes during a quiet walk, or while reading an old book. The key is to always keep a notebook nearby to capture those fleeting moments."
+      category: "Landschaftsfotografie",
+      content: "Sometimes inspiration strikes during a quiet walk, or while watching the sun rise. The key is to always keep a notebook and camera nearby to capture those fleeting moments."
+    },
+    {
+      id: 3,
+      title: "Testing the Old Lenses",
+      date: "September 5, 2026",
+      category: "Analog",
+      content: "Today I took out some of my older gear to see how the glass holds up. There is a certain charm to the imperfections and flares that modern equipment tries to erase."
     }
   ];
 
   const appDiv = document.getElementById('app');
 
-  function renderHome() {
+  // Renders the home page, with an optional filter for category
+  function renderHome(postsToDisplay = posts, activeCategory = null) {
     let html = '';
-    posts.forEach(post => {
+    
+    // Show a message if a filter is active
+    if (activeCategory) {
+      html += `
+        <div class="filter-notice">
+          Showing category: <b>${activeCategory}</b> 
+          <span class="clear-filter" onclick="renderHome()"> (Clear Filter)</span>
+        </div>`;
+    }
+
+    // Show a message if no posts match the category
+    if (postsToDisplay.length === 0) {
+      html += `<p>No posts found in this category.</p>`;
+    }
+
+    // Loop through the posts and create cards
+    postsToDisplay.forEach(post => {
       html += `
         <div class="post-card">
           <div class="post-meta">${post.date} &bull; <i>${post.category}</i></div>
@@ -265,21 +307,30 @@
           <span style="font-size: 0.9em; color: #b7410e; cursor: pointer; font-weight: bold;" onclick="renderPost(${post.id})">Read Entry &rarr;</span>
         </div>`;
     });
+    
     appDiv.innerHTML = html;
   }
 
+  // Filters the posts array and calls renderHome
+  function filterCategory(categoryName) {
+    const filteredPosts = posts.filter(post => post.category === categoryName);
+    renderHome(filteredPosts, categoryName);
+  }
+
+  // Shows the notebook paper view for a single post
   function renderPost(id) {
     const post = posts.find(p => p.id === id);
     appDiv.innerHTML = `
       <span class="back-button" onclick="renderHome()">&larr; Back to all posts</span>
       <div class="paper">
         <h2>${post.title}</h2>
-        <p><i>${post.date}</i></p><br>
+        <p style="font-size: 0.85em; color: #666; margin-bottom: 20px;"><i>${post.date} &bull; ${post.category}</i></p>
         <p>${post.content}</p>
       </div>
     `;
   }
 
+  // Load the home page when the file first opens
   renderHome();
 </script>
 
