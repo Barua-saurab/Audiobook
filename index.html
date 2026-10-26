@@ -167,17 +167,17 @@
         } else if (hash === '#about') {
             app.innerHTML = `
                 <header>
-                    <a href="#">আমার পার্সোনাল ব্লগ</a>
+                    <a href="#">Dein persönlicher Freiraum.</a>
                     <nav>
                         <a href="#">হোম</a>
                         <a href="#about">এবাউট</a>
                     </nav>
                 </header>
                 <main>
-                    <h1>আমার সম্পর্কে</h1>
-                    <p class="intro">এটি আমার ব্যক্তিগত জায়গা। এখানে আমার ভাবনা, অভিজ্ঞতা এবং লেখালেখি প্রকাশ করি।</p>
+                    <h1>{ber Uns</h1>
+                    <p class="intro">Dein persönlicher Freiraum, Schreib....</p>
                 </main>
-                <footer>&copy; 2026 - সর্বস্বত্ব সংরক্ষিত।</footer>
+                <footer>&copy; 2026 - Alle Rechte vorbehalten </footer>
             `;
         } else {
             let cardsHtml = posts.filter(post => post.lang === 'de').map(post => `
