@@ -180,7 +180,7 @@
                 <footer>&copy; 2026 - সর্বস্বত্ব সংরক্ষিত।</footer>
             `;
         } else {
-            let cardsHtml = posts.map(post => `
+            let cardsHtml = posts.filter(post => post.lang === 'de').map(post => `
                 <div class="card" onclick="location.hash='#post=${post.id}'">
                     <span class="date">${post.date} (${post.lang.toUpperCase()})</span>
                     <h2>${post.title}</h2>
