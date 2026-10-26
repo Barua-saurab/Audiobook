@@ -131,106 +131,87 @@
 
     <div id="app"></div>
 
-    <script>
-        // আপনার ব্লগ পোস্টগুলোর ডেটা এখানে রাখবেন। নতুন পোস্ট যোগ করতে চাইলে নিচে এভাবেই ডেটা যুক্ত করবেন।
-        const posts = [
-            {
-                id: "first-post-en",
-                translationId: "first-post-de",
-                lang: "en",
-                title: "My First Blog Post",
-                description: "Today I created my new personal blog site.",
-                date: "26 Oct 2026",
-                content: "Today I created my new personal blog site. Here I will share my daily thoughts, notes, and photography in English."
-            },
-            {
-                id: "first-post-de",
-                translationId: "first-post-en",
-                lang: "de",
-                title: "Mein erster Blogbeitrag",
-                description: "Heute habe ich meine neue persönliche Blog-Website erstellt.",
-                date: "26 Okt 2026",
-                content: "Heute habe ich meine neue persönliche Blog-Website erstellt. Hier werde ich meine täglichen Gedanken und Fotos auf Deutsch teilen."
+    <!-- 1. Load the external posts file first -->
+<script src="posts.js"></script>
+
+<!-- 2. Put all your application code inside this script tag -->
+<script>
+    function render() {
+        const hash = window.location.hash;
+        const app = document.getElementById('app');
+
+        if (hash.startsWith('#post=')) {
+            const postId = hash.split('=')[1];
+            const post = posts.find(p => p.id === postId);
+            const translatedPost = posts.find(p => p.id === post.translationId);
+
+            if (!post) {
+                app.innerHTML = `<h1>পোস্ট পাওয়া যায়নি</h1><a href="#">হোমে ফিরে যান</a>`;
+                return;
             }
-        ];
 
-        function render() {
-            const hash = window.location.hash; // যেমন: #post=first-post-en বা #about
-            const app = document.getElementById('app');
+            app.innerHTML = `
+                <div class="top-bar">
+                    <a href="#" style="font-weight: bold; text-decoration: none; color: #2c2c2c;">← হোমপেজে ফিরে যান</a>
+                    ${translatedPost ? `<a href="#post=${translatedPost.id}" class="lang-btn">${translatedPost.lang === 'de' ? '🇩🇪 Auf Deutsch lesen' : '🇬🇧 Read in English'}</a>` : ''}
+                </div>
+                <main>
+                    <article>
+                        <span class="date">${post.date}</span>
+                        <h1>${post.title}</h1>
+                        <div style="margin-top: 20px; color: #444;">${post.content}</div>
+                    </article>
+                </main>
+                <footer>&copy; 2026 - সর্বস্বত্ব সংরক্ষিত।</footer>
+            `;
+        } else if (hash === '#about') {
+            app.innerHTML = `
+                <header>
+                    <a href="#">আমার পার্সোনাল ব্লগ</a>
+                    <nav>
+                        <a href="#">হোম</a>
+                        <a href="#about">এবাউট</a>
+                    </nav>
+                </header>
+                <main>
+                    <h1>আমার সম্পর্কে</h1>
+                    <p class="intro">এটি আমার ব্যক্তিগত জায়গা। এখানে আমার ভাবনা, অভিজ্ঞতা এবং লেখালেখি প্রকাশ করি।</p>
+                </main>
+                <footer>&copy; 2026 - সর্বস্বত্ব সংরক্ষিত।</footer>
+            `;
+        } else {
+            let cardsHtml = posts.map(post => `
+                <div class="card" onclick="location.hash='#post=${post.id}'">
+                    <span class="date">${post.date} (${post.lang.toUpperCase()})</span>
+                    <h2>${post.title}</h2>
+                    <p>${post.description}</p>
+                </div>
+            `).join('');
 
-            if (hash.startsWith('#post=')) {
-                const postId = hash.split('=')[1];
-                const post = posts.find(p => p.id === postId);
-                const translatedPost = posts.find(p => p.id === post.translationId);
-
-                if (!post) {
-                    app.innerHTML = `<h1>পোস্ট পাওয়া যায়নি</h1><a href="#">হোমে ফিরে যান</a>`;
-                    return;
-                }
-
-                app.innerHTML = `
-                    <div class="top-bar">
-                        <a href="#" style="font-weight: bold; text-decoration: none; color: #2c2c2c;">← হোমপেজে ফিরে যান</a>
-                        ${translatedPost ? `<a href="#post=${translatedPost.id}" class="lang-btn">${translatedPost.lang === 'de' ? '🇩🇪 Auf Deutsch lesen' : '🇬🇧 Read in English'}</a>` : ''}
-                    </div>
-                    <main>
-                        <article>
-                            <span class="date">${post.date}</span>
-                            <h1>${post.title}</h1>
-                            <div style="margin-top: 20px; color: #444;">${post.content}</div>
-                        </article>
-                    </main>
-                    <footer>&copy; 2026 - সর্বস্বত্ব সংরক্ষিত।</footer>
-                `;
-            } else if (hash === '#about') {
-                app.innerHTML = `
-                    <header>
-                        <a href="#">আমার পার্সোনাল ব্লগ</a>
-                        <nav>
-                            <a href="#">হোম</a>
-                            <a href="#about">এবাউট</a>
-                        </nav>
-                    </header>
-                    <main>
-                        <h1>আমার সম্পর্কে</h1>
-                        <p class="intro">এটি আমার ব্যক্তিগত জায়গা। এখানে আমার ভাবনা, অভিজ্ঞতা এবং লেখালেখি প্রকাশ করি।</p>
-                    </main>
-                    <footer>&copy; 2026 - সর্বস্বত্ব সংরক্ষিত।</footer>
-                `;
-            } else {
-                // হোমপেজ
-                let cardsHtml = posts.map(post => `
-                    <div class="card" onclick="location.hash='#post=${post.id}'">
-                        <span class="date">${post.date} (${post.lang.toUpperCase()})</span>
-                        <h2>${post.title}</h2>
-                        <p>${post.description}</p>
-                    </div>
-                `).join('');
-
-                app.innerHTML = `
-                    <header>
-                        <a href="#">আমার পার্সোনাল ব্লগ</a>
-                        <nav>
-                            <a href="#">হোম</a>
-                            <a href="#about">এবাউট</a>
-                        </nav>
-                    </header>
-                    <main>
-                        <section style="margin-bottom: 30px;">
-                            <h1>স্বাগতম!</h1>
-                            <p class="intro">এখানে আমার লেখা, চিন্তা-ভাবনা এবং ডায়েরির পাতাগুলো শেয়ার করি।</p>
-                        </section>
-                        <section class="grid">
-                            ${cardsHtml}
-                        </section>
-                    </main>
-                    <footer>&copy; 2026 - সর্বস্বত্ব সংরক্ষিত।</footer>
-                `;
-            }
+            app.innerHTML = `
+                <header>
+                    <a href="#">আমার পার্সোনাল ব্লগ</a>
+                    <nav>
+                        <a href="#">হোম</a>
+                        <a href="#about">এবাউট</a>
+                    </nav>
+                </header>
+                <main>
+                    <section style="margin-bottom: 30px;">
+                        <h1>স্বাগতম!</h1>
+                        <p class="intro">এখানে আমার লেখা, চিন্তা-ভাবনা এবং ডায়েরির পাতাগুলো শেয়ার করি।</p>
+                    </section>
+                    <section class="grid">
+                        ${cardsHtml}
+                    </section>
+                </main>
+                <footer>&copy; 2026 - সর্বস্বত্ব সংরক্ষিত।</footer>
+            `;
         }
+    }
 
-        window.addEventListener('hashchange', render);
-        window.addEventListener('load', render);
-    </script>
+    window.addEventListener('hashchange', render);
+    window.addEventListener('load', render);
+</script>
 </body>
 </html>
