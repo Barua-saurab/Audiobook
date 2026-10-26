@@ -1,338 +1,236 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="bn">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>My Writer's Blog</title>
-<style>
-  body {
-    background-color: #eaddd3;
-    font-family: Georgia, 'Times New Roman', serif;
-    color: #333;
-    margin: 0;
-    padding: 0;
-  }
-
-  /* Top Navigation Bar */
-  .top-nav {
-    background-color: #fbfbfc;
-    text-align: center;
-    padding: 25px 0;
-    border-bottom: 5px solid #2c3e50;
-    position: relative;
-    margin-bottom: 40px;
-  }
-
-  .top-nav::after {
-    content: '';
-    position: absolute;
-    bottom: 5px;
-    left: 0;
-    right: 0;
-    height: 2px;
-    background-color: #c0392b;
-  }
-
-  .top-nav a {
-    text-decoration: none;
-    color: #777;
-    font-family: "Segoe UI", Arial, sans-serif;
-    font-size: 1.1em;
-    font-weight: 300;
-    margin: 0 15px;
-    cursor: pointer;
-  }
-
-  .top-nav a:hover {
-    color: #333;
-  }
-
-  .top-nav a.active {
-    color: #a82e13;
-    font-weight: bold;
-  }
-
-  .nav-divider {
-    color: #a82e13;
-    font-weight: 300;
-  }
-
-  /* Main Layout */
-  .container {
-    max-width: 1000px;
-    margin: 0 auto;
-    padding: 0 20px;
-  }
-
-  header {
-    text-align: center;
-    margin-bottom: 40px;
-  }
-
-  h1 {
-    font-family: 'Courier New', Courier, monospace;
-    color: #4a4a4a;
-    margin: 0 0 10px 0;
-    font-size: 2.5em;
-  }
-
-  .layout {
-    display: flex;
-    gap: 40px;
-    align-items: flex-start;
-  }
-
-  main {
-    flex: 1; 
-  }
-
-  /* Sidebar styling for Categories */
-  .sidebar {
-    width: 250px;
-    background-color: #f8f8f8;
-    padding: 25px;
-    border-radius: 4px;
-    box-shadow: 1px 3px 10px rgba(0, 0, 0, 0.05);
-  }
-
-  .sidebar h2 {
-    color: #1a365d;
-    font-size: 1.8em;
-    margin-top: 0;
-    margin-bottom: 15px;
-    font-weight: normal;
-  }
-
-  .sidebar ul {
-    list-style-type: disc;
-    padding-left: 20px;
-    margin: 0;
-  }
-
-  .sidebar li {
-    margin-bottom: 10px;
-  }
-
-  .sidebar a {
-    color: #b03a1e;
-    text-decoration: underline;
-    text-decoration-color: #e2b4a7;
-    font-size: 1.1em;
-    cursor: pointer;
-  }
-
-  .sidebar a:hover {
-    color: #8c2b14;
-    text-decoration-color: #8c2b14;
-  }
-
-  /* Blog Feed Styling */
-  .post-card {
-    background-color: #fffdf8;
-    padding: 25px 30px;
-    margin-bottom: 25px;
-    box-shadow: 1px 3px 10px rgba(0, 0, 0, 0.1);
-    border-radius: 3px;
-  }
-
-  .post-meta {
-    font-size: 0.85em;
-    color: #888;
-    margin-bottom: 8px;
-  }
-
-  .post-title {
-    font-size: 1.5em;
-    color: #b7410e;
-    cursor: pointer;
-    margin: 0 0 10px 0;
-  }
-
-  .post-title:hover {
-    text-decoration: underline;
-  }
-
-  .filter-notice {
-    margin-bottom: 20px;
-    font-style: italic;
-    color: #555;
-  }
-
-  .clear-filter {
-    color: #b7410e;
-    cursor: pointer;
-    font-weight: bold;
-  }
-
-  /* Margined Reading View Styling */
-  .paper {
-    background-color: #fffdf8;
-    padding: 40px 40px 40px 65px;
-    position: relative;
-    box-shadow: 2px 4px 15px rgba(0, 0, 0, 0.15);
-    border-radius: 2px;
-    font-size: 1.1em;
-    line-height: 2em;
-    background-image: linear-gradient(transparent 95%, #e0e0e0 95%);
-    background-size: 100% 2em;
-  }
-
-  .paper::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 45px;
-    width: 2px;
-    background-color: #e06c6c;
-  }
-
-  .paper h2 {
-    margin-top: 0;
-    line-height: 1.3;
-  }
-
-  .back-button {
-    cursor: pointer;
-    color: #555;
-    font-family: sans-serif;
-    font-size: 0.9em;
-    margin-bottom: 20px;
-    display: inline-block;
-    background: #d8cec4;
-    padding: 6px 12px;
-    border-radius: 4px;
-  }
-  
-  .back-button:hover {
-    background: #ccbfa3;
-    color: #000;
-  }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>আমার পার্সোনাল ব্লগ</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #faf9f6;
+            color: #2c2c2c;
+            max-width: 700px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            line-height: 1.6;
+        }
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #e5e5e0;
+            padding-bottom: 15px;
+            margin-bottom: 40px;
+        }
+        header a {
+            text-decoration: none;
+            color: #2c2c2c;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+        nav a {
+            margin-left: 20px;
+            text-decoration: none;
+            color: #555;
+            font-size: 0.95rem;
+        }
+        nav a:hover {
+            color: #000;
+        }
+        h1 {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+        .intro {
+            color: #666;
+            margin-bottom: 30px;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+        @media (min-width: 600px) {
+            .grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+        .card {
+            background: #ffffff;
+            border: 1px solid #e5e5e0;
+            padding: 20px;
+            border-radius: 8px;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+        .date {
+            font-size: 0.8rem;
+            color: #888;
+            display: block;
+            margin-bottom: 8px;
+        }
+        .card h2 {
+            font-size: 1.25rem;
+            margin: 0 0 8px 0;
+            color: #111;
+        }
+        .card p {
+            font-size: 0.95rem;
+            color: #555;
+            margin: 0;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+            border-bottom: 1px solid #e5e5e0;
+            padding-bottom: 15px;
+        }
+        .lang-btn {
+            background: #2c2c2c;
+            color: #fff;
+            padding: 6px 14px;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            border: none;
+            cursor: pointer;
+            text-decoration: none;
+        }
+        .lang-btn:hover {
+            background: #555;
+        }
+        article {
+            background: #ffffff;
+            border: 1px solid #e5e5e0;
+            padding: 30px;
+            border-radius: 8px;
+        }
+        footer {
+            margin-top: 60px;
+            border-top: 1px solid #e5e5e0;
+            padding-top: 20px;
+            text-align: center;
+            font-size: 0.8rem;
+            color: #888;
+        }
+    </style>
 </head>
 <body>
 
-<!-- Top Navigation -->
-<nav class="top-nav">
-  <a onclick="alert('This would go to the Galerie page.')">Galerie</a> <span class="nav-divider">|</span>
-  <a onclick="alert('This would go to the Bildarchiv page.')">Bildarchiv</a> <span class="nav-divider">|</span>
-  <a onclick="alert('This would go to the Landkarte page.')">Landkarte</a> <span class="nav-divider">|</span>
-  <a onclick="renderHome()" class="active">Blog</a> <span class="nav-divider">|</span>
-  <a onclick="alert('This would go to the Über mich page.')">Über mich</a> <span class="nav-divider">|</span>
-  <a onclick="alert('This would go to the Kontakt page.')">Kontakt</a>
-</nav>
+    <div id="app"></div>
 
-<div class="container">
-  <header>
-    <h1>Thoughts & Ink</h1>
-  </header>
+    <script>
+        // আপনার ব্লগ পোস্টগুলোর ডেটা এখানে রাখবেন। নতুন পোস্ট যোগ করতে চাইলে নিচে এভাবেই ডেটা যুক্ত করবেন।
+        const posts = [
+            {
+                id: "first-post-en",
+                translationId: "first-post-de",
+                lang: "en",
+                title: "My First Blog Post",
+                description: "Today I created my new personal blog site.",
+                date: "26 Oct 2026",
+                content: "Today I created my new personal blog site. Here I will share my daily thoughts, notes, and photography in English."
+            },
+            {
+                id: "first-post-de",
+                translationId: "first-post-en",
+                lang: "de",
+                title: "Mein erster Blogbeitrag",
+                description: "Heute habe ich meine neue persönliche Blog-Website erstellt.",
+                date: "26 Okt 2026",
+                content: "Heute habe ich meine neue persönliche Blog-Website erstellt. Hier werde ich meine täglichen Gedanken und Fotos auf Deutsch teilen."
+            }
+        ];
 
-  <div class="layout">
-    <!-- Main content area for blog posts -->
-    <main id="app"></main>
+        function render() {
+            const hash = window.location.hash; // যেমন: #post=first-post-en বা #about
+            const app = document.getElementById('app');
 
-    <!-- Sidebar with Clickable Categories -->
-    <aside class="sidebar">
-      <h2>Kategorien</h2>
-      <ul>
-        <li><a onclick="filterCategory('Fotografie allgemein')">Fotografie allgemein</a></li>
-        <li><a onclick="filterCategory('Landschaftsfotografie')">Landschaftsfotografie</a></li>
-        <li><a onclick="filterCategory('Fototouren')">Fototouren</a></li>
-        <li><a onclick="filterCategory('Analog')">Analog</a></li>
-        <li><a onclick="filterCategory('Experimentell')">Experimentell</a></li>
-        <li><a onclick="filterCategory('Review')">Review</a></li>
-        <li><a onclick="filterCategory('Pentax')">Pentax</a></li>
-        <li><a onclick="filterCategory('Pentacon Six')">Pentacon Six</a></li>
-        <li><a onclick="filterCategory('Persönliches')">Persönliches</a></li>
-        <li><a onclick="filterCategory('Meinung')">Meinung</a></li>
-        <li><a onclick="filterCategory('Nerd Alert')">Nerd Alert</a></li>
-      </ul>
-    </aside>
-  </div>
-</div>
+            if (hash.startsWith('#post=')) {
+                const postId = hash.split('=')[1];
+                const post = posts.find(p => p.id === postId);
+                const translatedPost = posts.find(p => p.id === post.translationId);
 
-<script>
-  // Dummy posts using your specific categories
-  const posts = [
-    {
-      id: 1,
-      title: "The First Draft",
-      date: "September 14, 2026",
-      category: "Persönliches",
-      content: "Writing is a process of discovery. The blank page can be intimidating, but it is also a canvas for new ideas. Every word brings the story slightly more into focus."
-    },
-    {
-      id: 2,
-      title: "Morning Light in the Valley",
-      date: "September 10, 2026",
-      category: "Landschaftsfotografie",
-      content: "Sometimes inspiration strikes during a quiet walk, or while watching the sun rise. The key is to always keep a notebook and camera nearby to capture those fleeting moments."
-    },
-    {
-      id: 3,
-      title: "Testing the Old Lenses",
-      date: "September 5, 2026",
-      category: "Analog",
-      content: "Today I took out some of my older gear to see how the glass holds up. There is a certain charm to the imperfections and flares that modern equipment tries to erase."
-    }
-  ];
+                if (!post) {
+                    app.innerHTML = `<h1>পোস্ট পাওয়া যায়নি</h1><a href="#">হোমে ফিরে যান</a>`;
+                    return;
+                }
 
-  const appDiv = document.getElementById('app');
+                app.innerHTML = `
+                    <div class="top-bar">
+                        <a href="#" style="font-weight: bold; text-decoration: none; color: #2c2c2c;">← হোমপেজে ফিরে যান</a>
+                        ${translatedPost ? `<a href="#post=${translatedPost.id}" class="lang-btn">${translatedPost.lang === 'de' ? '🇩🇪 Auf Deutsch lesen' : '🇬🇧 Read in English'}</a>` : ''}
+                    </div>
+                    <main>
+                        <article>
+                            <span class="date">${post.date}</span>
+                            <h1>${post.title}</h1>
+                            <div style="margin-top: 20px; color: #444;">${post.content}</div>
+                        </article>
+                    </main>
+                    <footer>&copy; 2026 - সর্বস্বত্ব সংরক্ষিত।</footer>
+                `;
+            } else if (hash === '#about') {
+                app.innerHTML = `
+                    <header>
+                        <a href="#">আমার পার্সোনাল ব্লগ</a>
+                        <nav>
+                            <a href="#">হোম</a>
+                            <a href="#about">এবাউট</a>
+                        </nav>
+                    </header>
+                    <main>
+                        <h1>আমার সম্পর্কে</h1>
+                        <p class="intro">এটি আমার ব্যক্তিগত জায়গা। এখানে আমার ভাবনা, অভিজ্ঞতা এবং লেখালেখি প্রকাশ করি।</p>
+                    </main>
+                    <footer>&copy; 2026 - সর্বস্বত্ব সংরক্ষিত।</footer>
+                `;
+            } else {
+                // হোমপেজ
+                let cardsHtml = posts.map(post => `
+                    <div class="card" onclick="location.hash='#post=${post.id}'">
+                        <span class="date">${post.date} (${post.lang.toUpperCase()})</span>
+                        <h2>${post.title}</h2>
+                        <p>${post.description}</p>
+                    </div>
+                `).join('');
 
-  // Renders the home page, with an optional filter for category
-  function renderHome(postsToDisplay = posts, activeCategory = null) {
-    let html = '';
-    
-    // Show a message if a filter is active
-    if (activeCategory) {
-      html += `
-        <div class="filter-notice">
-          Showing category: <b>${activeCategory}</b> 
-          <span class="clear-filter" onclick="renderHome()"> (Clear Filter)</span>
-        </div>`;
-    }
+                app.innerHTML = `
+                    <header>
+                        <a href="#">আমার পার্সোনাল ব্লগ</a>
+                        <nav>
+                            <a href="#">হোম</a>
+                            <a href="#about">এবাউট</a>
+                        </nav>
+                    </header>
+                    <main>
+                        <section style="margin-bottom: 30px;">
+                            <h1>স্বাগতম!</h1>
+                            <p class="intro">এখানে আমার লেখা, চিন্তা-ভাবনা এবং ডায়েরির পাতাগুলো শেয়ার করি।</p>
+                        </section>
+                        <section class="grid">
+                            ${cardsHtml}
+                        </section>
+                    </main>
+                    <footer>&copy; 2026 - সর্বস্বত্ব সংরক্ষিত।</footer>
+                `;
+            }
+        }
 
-    // Show a message if no posts match the category
-    if (postsToDisplay.length === 0) {
-      html += `<p>No posts found in this category.</p>`;
-    }
-
-    // Loop through the posts and create cards
-    postsToDisplay.forEach(post => {
-      html += `
-        <div class="post-card">
-          <div class="post-meta">${post.date} &bull; <i>${post.category}</i></div>
-          <h2 class="post-title" onclick="renderPost(${post.id})">${post.title}</h2>
-          <p style="color: #444; line-height: 1.6;">${post.content.substring(0, 100)}...</p>
-          <span style="font-size: 0.9em; color: #b7410e; cursor: pointer; font-weight: bold;" onclick="renderPost(${post.id})">Read Entry &rarr;</span>
-        </div>`;
-    });
-    
-    appDiv.innerHTML = html;
-  }
-
-  // Filters the posts array and calls renderHome
-  function filterCategory(categoryName) {
-    const filteredPosts = posts.filter(post => post.category === categoryName);
-    renderHome(filteredPosts, categoryName);
-  }
-
-  // Shows the notebook paper view for a single post
-  function renderPost(id) {
-    const post = posts.find(p => p.id === id);
-    appDiv.innerHTML = `
-      <span class="back-button" onclick="renderHome()">&larr; Back to all posts</span>
-      <div class="paper">
-        <h2>${post.title}</h2>
-        <p style="font-size: 0.85em; color: #666; margin-bottom: 20px;"><i>${post.date} &bull; ${post.category}</i></p>
-        <p>${post.content}</p>
-      </div>
-    `;
-  }
-
-  // Load the home page when the file first opens
-  renderHome();
-</script>
-
+        window.addEventListener('hashchange', render);
+        window.addEventListener('load', render);
+    </script>
 </body>
 </html>
